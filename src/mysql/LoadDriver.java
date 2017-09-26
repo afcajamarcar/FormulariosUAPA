@@ -198,8 +198,7 @@ public class LoadDriver {
 
 		LoadDriver load = new LoadDriver();
 
-		load.connect("root", "UAPA2017");
-		load.getConsolidateStudent("1000178793");
+		
 
 	}
 }
