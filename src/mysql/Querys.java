@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 //Notice, do not import com.mysql.jdbc.*
 //or you will have problems!
 
-public class LoadDriver {
+public class Querys {
 
 	private Connection conn;
 	private final String dbUrl = "jdbc:mysql://UAPA03:3306/uapa_db?verifyServerCertificate=false&useSSL=true";
@@ -28,7 +28,7 @@ public class LoadDriver {
 	/**
 	 * Empty constructor
 	 */
-	public LoadDriver() {
+	public Querys() {
 	}
 	/**
 	 * Tries to connect to a remote database by using the given user and pass
@@ -41,7 +41,7 @@ public class LoadDriver {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			try {
 				if(user.length() == 0 || pass.length() == 0) {
-					JOptionPane.showMessageDialog(null, "El ususario o la contrase�a no pueden estar vacios.");
+					JOptionPane.showMessageDialog(null, "El ususario o la contrasena no pueden estar vacios.");
 				}		
 				conn = DriverManager.getConnection(dbUrl,user,pass);
 			}catch(SQLException ex) {
@@ -200,7 +200,6 @@ public class LoadDriver {
 
 	public static void main(String[] args) {
 
-		LoadDriver load = new LoadDriver();
-		
+		Querys consult = new Querys();
 	}
 }
