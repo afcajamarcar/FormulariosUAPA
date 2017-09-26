@@ -77,15 +77,17 @@ public class LoadDriver {
 				ResultSetMetaData rsmd = result.getMetaData();
 
 				int columnsNumber = rsmd.getColumnCount();
-				while (result.next()) {
+				boolean val = result.next();
+				if(!val) JOptionPane.showMessageDialog(null, "No hay informacion");
+				while (val) {
 					for (int i = 1; i <= columnsNumber; i++) {
 						if (i > 1) System.out.print(",  ");
 						String columnValue = result.getString(i);
 						System.out.print(columnValue + " " + rsmd.getColumnName(i));
 					}
+					val = result.next();
 					System.out.println("");
 				}
-				JOptionPane.showMessageDialog(null, "No hay informacion");
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -119,15 +121,17 @@ public class LoadDriver {
 				ResultSetMetaData rsmd = result.getMetaData();
 
 				int columnsNumber = rsmd.getColumnCount();
-				while (result.next()) {
+				boolean val = result.next();
+				if(!val) JOptionPane.showMessageDialog(null, "No hay informacion");
+				while (val) {
 					for (int i = 1; i <= columnsNumber; i++) {
 						if (i > 1) System.out.print(",  ");
 						String columnValue = result.getString(i);
 						System.out.print(columnValue + " " + rsmd.getColumnName(i));
 					}
+					val = result.next();
 					System.out.println("");
 				}
-				JOptionPane.showMessageDialog(null, "No hay informacion");
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -197,8 +201,6 @@ public class LoadDriver {
 	public static void main(String[] args) {
 
 		LoadDriver load = new LoadDriver();
-
 		
-
 	}
 }
