@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
@@ -22,16 +22,25 @@ import javax.swing.JOptionPane;
 public class Querys {
 
 	private Connection conn;
+	
+	/*
+	 * Strings for querys and database connection
+	 */
 	private final String dbUrl = "jdbc:mysql://UAPA03:3306/uapa_db?verifyServerCertificate=false&useSSL=true";
-	private String db = "uapa_db."; 
+	private String db = "uapa_db.";
+	private String personas_unal_uapa = "personas_unal_uapa";
+	private String rel_estudiante_programa = "rel_estudiante_programa";
+	private String consolidado_reconocimientos_estudiantiles = "consolidado_reconocimientos_estudiantiles";
+	
 
 	/**
 	 * Empty constructor
 	 */
 	public Querys() {
 	}
+	
 	/**
-	 * Tries to connect to a remote database by using the given user and pass
+	 * Tries to connect to UAPA's database by using the given user and pass
 	 * @param user
 	 * @param pass
 	 */
@@ -65,20 +74,35 @@ public class Querys {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
+	
+	public void disconnect() {
+		try {
+			if(conn.isClosed()) {
+				JOptionPane.showMessageDialog(null, "Ya se ha desconectado");
+			}else {
+				conn.close();
+			}
+		}catch(SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+	}
 	//QUERYS
 	public void getStudent(String dni) {
 		isConnected();
 		PreparedStatement stmt = null;
 		try {
 			try {
-				stmt = conn.prepareStatement("SELECT * FROM "+ db+"personas_unal_uapa"+" WHERE dni_persona=?" );
+				
+				stmt = conn.prepareStatement("SELECT * FROM "+ db+personas_unal_uapa+" WHERE dni_persona=?" );
 				stmt.setString(1, dni);
 				ResultSet result = stmt.executeQuery();
 				ResultSetMetaData rsmd = result.getMetaData();
 
 				int columnsNumber = rsmd.getColumnCount();
 				boolean val = result.next();
-				if(!val) JOptionPane.showMessageDialog(null, "No hay informacion");
+				if(!val) JOptionPane.showMessageDialog(null, "No se encontró información sobre: " +dni.toString()+ " en: " +db+personas_unal_uapa );
 				while (val) {
 					for (int i = 1; i <= columnsNumber; i++) {
 						if (i > 1) System.out.print(",  ");
@@ -97,12 +121,6 @@ public class Querys {
 		finally {
 			try {
 				if (stmt != null) { stmt.close(); }
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			try {
-				if (conn != null) { conn.close(); }
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -115,14 +133,14 @@ public class Querys {
 		PreparedStatement stmt = null;
 		try {
 			try {
-				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+"rel_estudiante_programa"+" WHERE dni_estudiante=?" );
+				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+rel_estudiante_programa+" WHERE dni_estudiante=?" );
 				stmt.setString(1, dni);
 				ResultSet result = stmt.executeQuery();
 				ResultSetMetaData rsmd = result.getMetaData();
 
 				int columnsNumber = rsmd.getColumnCount();
 				boolean val = result.next();
-				if(!val) JOptionPane.showMessageDialog(null, "No hay informacion");
+				if(!val) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+personas_unal_uapa);
 				while (val) {
 					for (int i = 1; i <= columnsNumber; i++) {
 						if (i > 1) System.out.print(",  ");
@@ -145,12 +163,6 @@ public class Querys {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			try {
-				if (conn != null) { conn.close(); }
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	public void getConsolidateStudent(String dni) {
@@ -158,14 +170,14 @@ public class Querys {
 		PreparedStatement stmt = null;
 		try {
 			try {
-				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+"consolidado_reconocimientos_estudiantiles"+" WHERE dni_estudiante=?" );
+				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+consolidado_reconocimientos_estudiantiles+" WHERE dni_estudiante=?" );
 				stmt.setString(1, dni);
 				ResultSet result = stmt.executeQuery();
 				ResultSetMetaData rsmd = result.getMetaData();
 
 				int columnsNumber = rsmd.getColumnCount();
 				boolean val = result.next();
-				if(!val) JOptionPane.showMessageDialog(null, "No hay informacion");
+				if(!val) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+consolidado_reconocimientos_estudiantiles);
 				while (val) {
 					for (int i = 1; i <= columnsNumber; i++) {
 						if (i > 1) System.out.print(",  ");
@@ -189,17 +201,44 @@ public class Querys {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			try {
-				if (conn != null) { conn.close(); }
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
-
+	
+	public String[][] toMatrix(ResultSet result){
+		String[][] data = null; 
+		try {
+			result.last();
+			int rowCount = result.getRow();
+			result.beforeFirst();
+			boolean val = result.next();
+			ResultSetMetaData rsmd = result.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			data = new String[columnsNumber][];
+			while (val) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					for(int j = 0; j<= rowCount; j++ ) {
+						data[j][i] = result.getString(i);
+					}
+					//resultMatrix[i] = new String[result.getString(i)];	
+				}
+				val = result.next();
+			}
+		}catch(SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		return data;
+	}
+	
+	
 	public static void main(String[] args) {
-
 		Querys consult = new Querys();
+		consult.connect("root", "UAPA2017");
+		//consult.getStudent("1014261438");
+		System.out.println("-----------------");
+		//consult.getConsolidateStudent("1014261438");
+		System.out.println("-----------------");
+		//consult.getProgramStudent("1014261438");
 	}
 }
