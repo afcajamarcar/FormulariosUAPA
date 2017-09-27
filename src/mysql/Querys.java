@@ -212,13 +212,12 @@ public class Querys {
 			row = new String[columnsNumber];
 			System.out.println(rowCount);
 			while (val) {
-				for (int i = 0; i < columnsNumber; i++) {
-					for(int j = 0; j< rowCount; j++ ) {
+				for (int i = 0; i < rowCount; i++) {
+					for (int j = 0; j < columnsNumber; j++) {
+						System.out.println(result.getString(j+1));
 						row[j] = result.getString(j+1);
-						System.out.println(row[j]);
 					}
-					data[i+1]= row;
-					//resultMatrix[i] = new String[result.getString(i)];	
+					data[i]= row;
 				}
 				val = result.next();
 			}
