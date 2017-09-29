@@ -11,10 +11,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import javax.swing.JOptionPane;
-import javax.swing.plaf.basic.BasicComboBoxUI.ComboBoxLayoutManager;
 
 
 
@@ -30,9 +28,11 @@ public class Querys {
 	 */
 	private final String dbUrl = "jdbc:mysql://UAPA03:3306/uapa_db?verifyServerCertificate=false&useSSL=true";
 	private String db = "uapa_db.";
-	private String personas_unal_uapa = "personas_unal_uapa";
+	//private String personas_unal_uapa = "personas_unal_uapa";
+	private String estudiantes = "estudiantes";
 	private String rel_estudiante_programa = "rel_estudiante_programa";
 	private String consolidado_reconocimientos_estudiantiles = "consolidado_reconocimientos_estudiantiles";
+	private String reconocimientos = "reconocimientos";
 	
 
 	/**
@@ -90,30 +90,24 @@ public class Querys {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
-	//QUERYS
+	/*
+	 * Query 
+	 */
 	public void getStudent(String dni) {
 		isConnected();
 		PreparedStatement stmt = null;
 		try {
 			try {
-				
-				stmt = conn.prepareStatement("SELECT * FROM "+ db+personas_unal_uapa+" WHERE dni_persona=?" );
+				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+estudiantes+" WHERE dni_estudiante=?" );
 				stmt.setString(1, dni);
 				ResultSet result = stmt.executeQuery();
-				ResultSetMetaData rsmd = result.getMetaData();
 
-				int columnsNumber = rsmd.getColumnCount();
-				boolean val = result.next();
-				if(!val) JOptionPane.showMessageDialog(null, "No se encontró información sobre: " +dni.toString()+ " en: " +db+personas_unal_uapa );
-				while (val) {
-					for (int i = 1; i <= columnsNumber; i++) {
-						if (i > 1) System.out.print(",  ");
-						String columnValue = result.getString(i);
-						System.out.print(columnValue + " " + rsmd.getColumnName(i));
-					}
-					val = result.next();
-					System.out.println("");
-				}
+				
+				String[][] data = toMatrix(result);
+				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+estudiantes);
+				
+				printMatrix(data);
+				
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -138,20 +132,13 @@ public class Querys {
 				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+rel_estudiante_programa+" WHERE dni_estudiante=?" );
 				stmt.setString(1, dni);
 				ResultSet result = stmt.executeQuery();
-				ResultSetMetaData rsmd = result.getMetaData();
 
-				int columnsNumber = rsmd.getColumnCount();
-				boolean val = result.next();
-				if(!val) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+personas_unal_uapa);
-				while (val) {
-					for (int i = 1; i <= columnsNumber; i++) {
-						if (i > 1) System.out.print(",  ");
-						String columnValue = result.getString(i);
-						System.out.print(columnValue + " " + rsmd.getColumnName(i));
-					}
-					val = result.next();
-					System.out.println("");
-				}
+				
+				String[][] data = toMatrix(result);
+				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+rel_estudiante_programa);
+				
+				printMatrix(data);
+				
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -167,6 +154,64 @@ public class Querys {
 			}
 		}
 	}
+	
+	//TODO not extracting full query
+	public void getAwards() {
+		isConnected();
+		//ArrayList<String> rec_lst = new ArrayList<String>();
+		
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+reconocimientos );
+				ResultSet result = stmt.executeQuery();
+				
+				String[][] data = toMatrix(result);
+				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+reconocimientos);
+				
+				printMatrix(data);
+				result.close();
+				
+				/*
+				while(result.next()) {
+					
+					String a = result.getString("cod_reconocimiento");
+					String b = result.getString("tipo_reconocimiento");
+					String c = result.getString("nombre_reconocimiento");
+					String d = result.getString("ambito_reconocimiento");
+					String e = result.getString("caracter");
+					String f = result.getString("institucion_otorga");
+					String g = result.getString("pais_institucion");
+					
+					String rs = a+", "+b+", "+c+", "+d+", "+e+", "+f+", "+g;
+					
+					rec_lst.add(rs);
+					
+				}
+				
+				System.out.println("Results: "+rec_lst.size());
+				
+				for (String string : rec_lst) {
+					System.out.println(string);
+				}
+				*/
+								
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void getConsolidateStudent(String dni) {
 		isConnected();
 		PreparedStatement stmt = null;
@@ -175,7 +220,6 @@ public class Querys {
 				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+consolidado_reconocimientos_estudiantiles+" WHERE dni_estudiante=?" );
 				stmt.setString(1, dni);
 				ResultSet result = stmt.executeQuery();
-
 				
 				String[][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+consolidado_reconocimientos_estudiantiles);
@@ -201,26 +245,32 @@ public class Querys {
 	public String[][] toMatrix(ResultSet result){
 		String[][] data = null;
 		String[] row = null;
+		String[] row_names = null;
 		try {
 			result.last();
 			int rowCount = result.getRow();
 			result.beforeFirst();
 			boolean val = result.next();
+			
 			ResultSetMetaData rsmd = result.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
-			data = new String[rowCount][columnsNumber];
-			row = new String[columnsNumber];
-			System.out.println(rowCount);
+			data = new String[rowCount+1][columnsNumber];
+			row_names = new String[columnsNumber];
+			System.out.println("Total results: "+rowCount);
+			
 			while (val) {
-				for (int i = 0; i < rowCount; i++) {
-					for (int j = 0; j < columnsNumber; j++) {
-						System.out.println(result.getString(j+1));
-						row[j] = result.getString(j+1);
-					}
-					data[i]= row;
+				int j = 0;
+				row = new String[columnsNumber];
+				while(j < columnsNumber) {
+					row[j] = result.getString(j+1);
+					row_names[j] = rsmd.getColumnName(j+1);
+					j++;
 				}
+				data[result.getRow()] = row;
 				val = result.next();
 			}
+			data[0] = row_names;
+
 		}catch(SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
@@ -230,17 +280,12 @@ public class Querys {
 	}
 	
 	public void printMatrix(String [][] data) {
-		System.out.println(Arrays.deepToString(data));
-		/*
-		 *for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				System.out.println(data[i]);
-			}
-		} 
-		 */
+		System.out.println(Arrays.deepToString(data));		
 	}
-	
+		
 	public static void main(String[] args) {
 		Querys consult = new Querys();
+
+		
 	}
 }
