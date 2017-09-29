@@ -14,8 +14,6 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-
-
 //Notice, do not import com.mysql.jdbc.*
 //or you will have problems!
 
@@ -27,13 +25,7 @@ public class Querys {
 	 * Strings for querys and database connection
 	 */
 	private final String dbUrl = "jdbc:mysql://UAPA03:3306/uapa_db?verifyServerCertificate=false&useSSL=true";
-	private String db = "uapa_db.";
-	//private String personas_unal_uapa = "personas_unal_uapa";
-	private String estudiantes = "estudiantes";
-	private String rel_estudiante_programa = "rel_estudiante_programa";
-	private String consolidado_reconocimientos_estudiantiles = "consolidado_reconocimientos_estudiantiles";
-	private String reconocimientos = "reconocimientos";
-	
+	private String db = "uapa_db.";	
 
 	/**
 	 * Empty constructor
@@ -93,49 +85,19 @@ public class Querys {
 	/*
 	 * Query 
 	 */
-	public void getStudent(String dni) {
+	
+	public void getSomeFromTable(String field_name, String field_value, String table) {
 		isConnected();
 		PreparedStatement stmt = null;
 		try {
 			try {
-				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+estudiantes+" WHERE dni_estudiante=?" );
-				stmt.setString(1, dni);
+				stmt = conn.prepareStatement("SELECT * FROM "+ db+table+" WHERE "+field_name+"=?" );
+				stmt.setString(1, field_value);
 				ResultSet result = stmt.executeQuery();
 
 				
 				String[][] data = toMatrix(result);
-				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+estudiantes);
-				
-				printMatrix(data);
-				
-			}catch(SQLException ex) {
-				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ex.getSQLState());
-				System.out.println("VendorError: " + ex.getErrorCode());
-			}
-		} 
-		finally {
-			try {
-				if (stmt != null) { stmt.close(); }
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void getProgramStudent(String dni) {
-		isConnected();
-		PreparedStatement stmt = null;
-		try {
-			try {
-				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+rel_estudiante_programa+" WHERE dni_estudiante=?" );
-				stmt.setString(1, dni);
-				ResultSet result = stmt.executeQuery();
-
-				
-				String[][] data = toMatrix(result);
-				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+rel_estudiante_programa);
+				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+field_value.toString()+" en: "+db+table);
 				
 				printMatrix(data);
 				
@@ -155,93 +117,36 @@ public class Querys {
 		}
 	}
 	
-	//TODO not extracting full query
-	public void getAwards() {
+	public void getAllFromTable( String table) {
 		isConnected();
-		//ArrayList<String> rec_lst = new ArrayList<String>();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT * FROM "+ db+table );
+				ResultSet result = stmt.executeQuery();
+
+				
+				String[][] data = toMatrix(result);
+				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+table);
+				
+				printMatrix(data);
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 		
-		PreparedStatement stmt = null;
-		try {
-			try {
-				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+reconocimientos );
-				ResultSet result = stmt.executeQuery();
-				
-				String[][] data = toMatrix(result);
-				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+reconocimientos);
-				
-				printMatrix(data);
-				result.close();
-				
-				/*
-				while(result.next()) {
-					
-					String a = result.getString("cod_reconocimiento");
-					String b = result.getString("tipo_reconocimiento");
-					String c = result.getString("nombre_reconocimiento");
-					String d = result.getString("ambito_reconocimiento");
-					String e = result.getString("caracter");
-					String f = result.getString("institucion_otorga");
-					String g = result.getString("pais_institucion");
-					
-					String rs = a+", "+b+", "+c+", "+d+", "+e+", "+f+", "+g;
-					
-					rec_lst.add(rs);
-					
-				}
-				
-				System.out.println("Results: "+rec_lst.size());
-				
-				for (String string : rec_lst) {
-					System.out.println(string);
-				}
-				*/
-								
-			}catch(SQLException ex) {
-				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ex.getSQLState());
-				System.out.println("VendorError: " + ex.getErrorCode());
-			}
-		} 
-		finally {
-			try {
-				if (stmt != null) { stmt.close(); }
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void getConsolidateStudent(String dni) {
-		isConnected();
-		PreparedStatement stmt = null;
-		try {
-			try {
-				stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM "+ db+consolidado_reconocimientos_estudiantiles+" WHERE dni_estudiante=?" );
-				stmt.setString(1, dni);
-				ResultSet result = stmt.executeQuery();
-				
-				String[][] data = toMatrix(result);
-				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+dni.toString()+" en: "+db+consolidado_reconocimientos_estudiantiles);
-				
-				printMatrix(data);
-				
-			}catch(SQLException ex) {
-				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ex.getSQLState());
-				System.out.println("VendorError: " + ex.getErrorCode());
-			}
-		} 
-		finally {
-			try {
-				if (stmt != null) { stmt.close(); }
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	public String[][] toMatrix(ResultSet result){
 		String[][] data = null;
 		String[] row = null;
