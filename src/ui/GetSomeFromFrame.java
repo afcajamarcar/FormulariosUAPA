@@ -49,6 +49,7 @@ public class GetSomeFromFrame extends JFrame {
 		setTitle("A\u00F1adir Estudiante");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 481, 362);
+		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -72,6 +73,7 @@ public class GetSomeFromFrame extends JFrame {
 		inputFieldValue = new JTextField();
 		inputFieldValue.setFont(new Font("Calibri", Font.PLAIN, 10));
 		inputFieldValue.setBounds(323, 23, 131, 20);
+		inputFieldValue.setToolTipText("Presione Enter para consultar.");
 		contentPane.add(inputFieldValue);
 		inputFieldValue.setColumns(10);
 		inputFieldValue.addActionListener(new ActionListener() {

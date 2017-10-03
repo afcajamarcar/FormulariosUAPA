@@ -35,6 +35,7 @@ public class AddPeopleFrame extends JFrame {
 		setTitle("A\u00F1adir Persona");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 304, 229);
+		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
