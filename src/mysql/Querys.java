@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -86,9 +87,10 @@ public class Querys {
 	 * Query 
 	 */
 	
-	public void getSomeFromTable(String field_name, String field_value, String table) {
+	public String[][] getSomeFromTable(String field_name, String field_value, String table) {
 		isConnected();
 		PreparedStatement stmt = null;
+		
 		try {
 			try {
 				stmt = conn.prepareStatement("SELECT * FROM "+ db+table+" WHERE "+field_name+"=?" );
@@ -96,10 +98,11 @@ public class Querys {
 				ResultSet result = stmt.executeQuery();
 
 				
-				String[][] data = toMatrix(result);
+				String [][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+field_value.toString()+" en: "+db+table);
 				
 				printMatrix(data);
+				return data;
 				
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
@@ -115,9 +118,10 @@ public class Querys {
 				e.printStackTrace();
 			}
 		}
+		return null;
 	}
 	
-	public void getAllFromTable( String table) {
+	public void getAllFromTable(String table) {
 		isConnected();
 		PreparedStatement stmt = null;
 		try {
@@ -146,7 +150,44 @@ public class Querys {
 			}
 		}
 	}
-		
+	public String[] getColumnNames(String table) {
+		isConnected();
+		PreparedStatement stmt = null;
+		String[] columnNames = null; 
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT * FROM "+ db+table );
+				ResultSet result = stmt.executeQuery();
+				ResultSetMetaData rsmd = result.getMetaData();
+				
+				columnNames = new String[rsmd.getColumnCount()];
+				 
+				for(int i = 0; i < rsmd.getColumnCount(); i++) {
+					columnNames[i] = rsmd.getColumnName(i+1);
+				}
+				
+				
+				if(columnNames.length == 0) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+table);
+				
+				return columnNames;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+
+	}
 	public String[][] toMatrix(ResultSet result){
 		String[][] data = null;
 		String[] row = null;
@@ -186,11 +227,5 @@ public class Querys {
 	
 	public void printMatrix(String [][] data) {
 		System.out.println(Arrays.deepToString(data));		
-	}
-		
-	public static void main(String[] args) {
-		Querys consult = new Querys();
-
-		
 	}
 }
