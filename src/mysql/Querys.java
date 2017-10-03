@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -57,7 +56,10 @@ public class Querys {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Checks the state of the connection
+	 */
 	public void isConnected() {
 		try {
 			if(conn.isClosed()) {
@@ -83,10 +85,14 @@ public class Querys {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
-	/*
-	 * Query 
-	 */
 	
+	/**
+	 * Unique query for consulting data from uapa's db.
+	 * @param field_name
+	 * @param field_value
+	 * @param table
+	 * @return
+	 */
 	public String[][] getSomeFromTable(String field_name, String field_value, String table) {
 		isConnected();
 		PreparedStatement stmt = null;
@@ -121,6 +127,10 @@ public class Querys {
 		return null;
 	}
 	
+	/**
+	 * Query for absolute consults
+	 * @param table
+	 */
 	public void getAllFromTable(String table) {
 		isConnected();
 		PreparedStatement stmt = null;
@@ -150,6 +160,12 @@ public class Querys {
 			}
 		}
 	}
+	
+	/**
+	 * Query for displaying the column names of a given table, used for fieldbox mostly.
+	 * @param table
+	 * @return
+	 */
 	public String[] getColumnNames(String table) {
 		isConnected();
 		PreparedStatement stmt = null;

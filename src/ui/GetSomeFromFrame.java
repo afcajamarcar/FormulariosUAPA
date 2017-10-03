@@ -48,7 +48,7 @@ public class GetSomeFromFrame extends JFrame {
 	public GetSomeFromFrame() {
 		setTitle("A\u00F1adir Estudiante");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 481, 362);
+		setBounds(100, 100, 570, 362);
 		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,7 +62,7 @@ public class GetSomeFromFrame extends JFrame {
 		
 		JLabel lblFieldValue = new JLabel("Valor del campo: ");
 		lblFieldValue.setFont(new Font("Calibri", Font.PLAIN, 10));
-		lblFieldValue.setBounds(229, 25, 84, 14);
+		lblFieldValue.setBounds(269, 25, 84, 14);
 		contentPane.add(lblFieldValue);
 		
 		JLabel lblTables = new JLabel("De la Tabla:");
@@ -72,7 +72,7 @@ public class GetSomeFromFrame extends JFrame {
 		
 		inputFieldValue = new JTextField();
 		inputFieldValue.setFont(new Font("Calibri", Font.PLAIN, 10));
-		inputFieldValue.setBounds(323, 23, 131, 20);
+		inputFieldValue.setBounds(354, 23, 131, 20);
 		inputFieldValue.setToolTipText("Presione Enter para consultar.");
 		contentPane.add(inputFieldValue);
 		inputFieldValue.setColumns(10);
@@ -101,7 +101,7 @@ public class GetSomeFromFrame extends JFrame {
 		comboTables.setBounds(88, 8, 131, 20);
 		contentPane.add(comboTables);
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 112, 444, 200);
+		scrollPane.setBounds(10, 67, 535, 245);
 		contentPane.add(scrollPane);
 		
 		comboTables.addItemListener(new ItemChangeListener());
