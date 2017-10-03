@@ -23,7 +23,6 @@ public class GetSomeFromFrame extends JFrame {
 	private DefaultTableModel tableModel;
 	private JComboBox fieldBox;
 	private JComboBox<String> comboTables;
-	private JButton btnSearchFieldFrom;
 	private JScrollPane scrollPane;
 	private JTable dataTable;
 
@@ -62,7 +61,7 @@ public class GetSomeFromFrame extends JFrame {
 		
 		JLabel lblFieldValue = new JLabel("Valor del campo: ");
 		lblFieldValue.setFont(new Font("Calibri", Font.PLAIN, 10));
-		lblFieldValue.setBounds(229, 11, 84, 14);
+		lblFieldValue.setBounds(229, 25, 84, 14);
 		contentPane.add(lblFieldValue);
 		
 		JLabel lblTables = new JLabel("De la Tabla:");
@@ -72,34 +71,12 @@ public class GetSomeFromFrame extends JFrame {
 		
 		inputFieldValue = new JTextField();
 		inputFieldValue.setFont(new Font("Calibri", Font.PLAIN, 10));
-		inputFieldValue.setBounds(323, 8, 131, 20);
+		inputFieldValue.setBounds(323, 23, 131, 20);
 		contentPane.add(inputFieldValue);
 		inputFieldValue.setColumns(10);
 		inputFieldValue.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				checkFields();
-				
-			}
-		});
-		
-		comboTables = new JComboBox<String>();
-		comboTables.setFont(new Font("Calibri", Font.PLAIN, 10));
-		comboTables.setModel(new DefaultComboBoxModel<String>(new String[] {"Null", "consolidado_reconocimientos_estudiantiles", "estudiantes", "programas", "reconocimientos", "rel_estudiante_programa"}));
-		comboTables.setBounds(88, 8, 131, 20);
-		contentPane.add(comboTables);
-		
-		btnSearchFieldFrom = new JButton("Buscar");
-		btnSearchFieldFrom.setFont(new Font("Calibri", Font.PLAIN, 10));
-		btnSearchFieldFrom.setEnabled(false);
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 112, 444, 200);
-		contentPane.add(scrollPane);
-		
-		
-        //getContentPane().add(new JScrollPane(dataTable), BorderLayout.CENTER);
-		btnSearchFieldFrom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[][] data = AuthenticationFrame.consult.getSomeFromTable(fieldBox.getSelectedItem().toString(), inputFieldValue.getText(), comboTables.getSelectedItem().toString());
 				String[] columnNames = data[0];
@@ -112,20 +89,23 @@ public class GetSomeFromFrame extends JFrame {
 				dataTable = new JTable(new DefaultTableModel(data,columnNames));
 				dataTable.setAutoResizeMode(dataTable.AUTO_RESIZE_OFF);
 				scrollPane.setViewportView(dataTable);
-
+				
 			}
 		});
-		btnSearchFieldFrom.setBounds(365, 36, 89, 23);
-		contentPane.add(btnSearchFieldFrom);
+		
+		comboTables = new JComboBox<String>();
+		comboTables.setFont(new Font("Calibri", Font.PLAIN, 10));
+		comboTables.setModel(new DefaultComboBoxModel<String>(new String[] {"Null", "consolidado_reconocimientos_estudiantiles", "estudiantes", "programas", "reconocimientos", "rel_estudiante_programa"}));
+		comboTables.setBounds(88, 8, 131, 20);
+		contentPane.add(comboTables);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 112, 444, 200);
+		contentPane.add(scrollPane);
 		
 		comboTables.addItemListener(new ItemChangeListener());
 		fieldBox = new JComboBox<String>();
 		fieldBox.setBounds(88, 36, 131, 20);
 		contentPane.add(fieldBox);
-		
-		
-		
-		
 		
 	}
 	
@@ -137,7 +117,6 @@ public class GetSomeFromFrame extends JFrame {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 		          Object item = event.getItem();
 		          fieldBox.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getColumnNames(item.toString())));
-		          checkFields();
 		       }
 			
 		}       
@@ -152,12 +131,4 @@ public class GetSomeFromFrame extends JFrame {
 		this.fieldBox = fieldBox;
 	}
 	
-	/**
-	 * Checks if the necessary fields are filled with data in order to activate the search button
-	 */
-	private void checkFields() {
-		if(comboTables.getSelectedItem() != null && !inputFieldValue.getText().isEmpty() && fieldBox.getSelectedItem() != null) {
-			btnSearchFieldFrom.setEnabled(true);
-		}
-	}
 }
