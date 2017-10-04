@@ -10,7 +10,11 @@ import javax.swing.border.EmptyBorder;
 import mysql.Querys;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -79,16 +83,23 @@ public class AuthenticationFrame extends JFrame {
 		btnLogIn = new JButton("Acceder");
 		btnLogIn.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnLogIn.addActionListener(new ActionListener() {
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				consult = new Querys();
 				consult.connect(userInput.getText(), paswdInput.getText());
-				GetSomeFromFrame getSomeFromFrame = new GetSomeFromFrame();
-				getSomeFromFrame.initialize();
-				frame.setVisible(false);
+				if(consult.isConnected()) {
+					GetSomeFromFrame getSomeFromFrame = new GetSomeFromFrame();
+					getSomeFromFrame.initialize();
+					frame.setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+				}
 				
 			}
-		});
+		});		
 		btnLogIn.setBounds(67, 142, 89, 23);
+		this.getRootPane().setDefaultButton(btnLogIn);
 		contentPane.add(btnLogIn);
 	}
 

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -60,16 +61,12 @@ public class Querys {
 	/**
 	 * Checks the state of the connection
 	 */
-	public void isConnected() {
-		try {
-			if(conn.isClosed()) {
-				JOptionPane.showMessageDialog(null, "No conectado a la base de datos");
-			}
-		}catch(SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+	public boolean isConnected() {
+		if(conn == null) {
+			JOptionPane.showMessageDialog(null, "No conectado a la base de datos");
+			return false;
 		}
+		return true;
 	}
 	
 	public void disconnect() {
@@ -204,6 +201,43 @@ public class Querys {
 		return null;
 
 	}
+	public void addPerson(String dni_persona, String tipo_dni_persona, String nombres, String apellidos) {
+		isConnected();
+		Statement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("INSERT INTO " +db+ "personas_unal_uapa "+ "VALUES "
+						+ dni_persona+", "+tipo_dni_persona+", "+nombres+", "+apellidos+", "+nombres+" "+apellidos);
+				int result = stmt.executeUpdate("INSERT INTO " +db+ "personas_unal_uapa "+ "VALUES "
+						+ dni_persona+", "+tipo_dni_persona+", "+nombres+", "+apellidos+", "+nombres+" "+apellidos);
+				if(result != 0) {
+					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +nombres+" "+apellidos);
+				}else {
+					JOptionPane.showMessageDialog(null, nombres+" "+apellidos+ " ha sido añadido.");
+				}
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		
+	}
+	/**
+	 * Puts the resultset into a matrix
+	 * @param result
+	 * @return
+	 */
 	public String[][] toMatrix(ResultSet result){
 		String[][] data = null;
 		String[] row = null;
