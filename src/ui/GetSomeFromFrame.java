@@ -23,7 +23,7 @@ public class GetSomeFromFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField inputFieldValue;
 	private DefaultTableModel tableModel;
-	private JComboBox fieldBox;
+	private JComboBox<String> fieldBox;
 	private JComboBox<String> comboTables;
 	private JScrollPane scrollPane;
 	private JTable dataTable;

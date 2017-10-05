@@ -171,5 +171,27 @@ public class AddPersonFrame extends JFrame {
 		
 		
 		this.getRootPane().setDefaultButton(btnAadir);
+		this.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println(e.getKeyCode());
+				if(e.getKeyCode() == e.VK_ESCAPE) {
+					dispose();
+				}
+			}
+		});
 	}
 }
