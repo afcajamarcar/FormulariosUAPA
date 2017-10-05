@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
+
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -171,27 +173,15 @@ public class AddPersonFrame extends JFrame {
 		
 		
 		this.getRootPane().setDefaultButton(btnAadir);
-		this.addKeyListener(new KeyListener() {
-			
+		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false);
+		Action escapeAction = new AbstractAction() {
+
 			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void actionPerformed(ActionEvent e) {
 			}
 			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				System.out.println(e.getKeyCode());
-				if(e.getKeyCode() == e.VK_ESCAPE) {
-					dispose();
-				}
-			}
-		});
+		};
+		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+		getRootPane().getActionMap().put("ESCAPE", escapeAction);
 	}
 }
