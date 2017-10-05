@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.glass.events.KeyEvent;
+
 import mysql.Querys;
 
 import java.awt.event.ActionListener;
@@ -26,8 +28,8 @@ public class GetSomeFromFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JTable dataTable;
 	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
-	private JButton btnAadirPersona;
 	private AddPersonFrame addPerson;
+	private JMenuItem mntmAadirPersona;
 
 	/**
 	 * When external classes call this method, it launches the application.
@@ -51,8 +53,33 @@ public class GetSomeFromFrame extends JFrame {
 	public GetSomeFromFrame() {
 		setTitle("Consultar tablas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 570, 362);
-		setLocationRelativeTo(null); //centers the frame
+		setBounds(100, 100, 570, 384);
+		setLocationRelativeTo(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnAadir = new JMenu("A\u00F1adir");
+		menuBar.add(mnAadir);
+		
+		mntmAadirPersona = new JMenuItem("Persona");
+		mntmAadirPersona.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addPerson = new AddPersonFrame();
+				addPerson.initialize();
+			}
+		});
+		KeyStroke f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0);
+		mntmAadirPersona.setAccelerator(f2);
+		mnAadir.add(mntmAadirPersona);
+		
+		JMenuItem mntmEstudiante = new JMenuItem("Estudiante");
+		mnAadir.add(mntmEstudiante);
+		
+		JMenuItem mntmReconocimiento = new JMenuItem("Reconocimiento");
+		mnAadir.add(mntmReconocimiento);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,14 +113,6 @@ public class GetSomeFromFrame extends JFrame {
 				String[][] data = AuthenticationFrame.consult.getSomeFromTable(fieldBox.getSelectedItem().toString(), inputFieldValue.getText(), comboTables.getSelectedItem().toString());
 				String[] columnNames = data[0];
 				
-				/**
-				 * 
-				 
-				for (int i = 0; i < data.length-1; i++) {
-					data[i] = data[i+1];
-				}
-				*/
-				
 				int r= data.length;
 		        int c= data[0].length;
 		        String [][] temp = new String [r-1][c];
@@ -124,19 +143,6 @@ public class GetSomeFromFrame extends JFrame {
 		fieldBox.setBounds(285, 7, 131, 20);
 		contentPane.add(fieldBox);
 		
-		btnAadirPersona = new JButton("A\u00F1adir persona");
-		btnAadirPersona.setBounds(295, 30, 121, 23);
-		btnAadirPersona.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addPerson = new AddPersonFrame();
-				addPerson.initialize();
-				
-			}
-		});
-		contentPane.add(btnAadirPersona);
-		
 	}
 	
 	
@@ -147,8 +153,7 @@ public class GetSomeFromFrame extends JFrame {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 		          Object item = event.getItem();
 		          fieldBox.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getColumnNames(item.toString())));
-		       }
-			
+		    }
 		}
 	}
 
