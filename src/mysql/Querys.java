@@ -104,7 +104,7 @@ public class Querys {
 				String [][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+field_value.toString()+" en: "+db+table);
 				
-				printMatrix(data);
+				//printMatrix(data);
 				return data;
 				
 			}catch(SQLException ex) {
@@ -140,7 +140,7 @@ public class Querys {
 				String[][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+table);
 				
-				printMatrix(data);
+				//printMatrix(data);
 				
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
@@ -206,10 +206,11 @@ public class Querys {
 		Statement stmt = null;
 		try {
 			try {
-				stmt = conn.prepareStatement("INSERT INTO " +db+ "personas_unal_uapa "+ "VALUES "
-						+ dni_persona+", "+tipo_dni_persona+", "+nombres+", "+apellidos+", "+nombres+" "+apellidos);
-				int result = stmt.executeUpdate("INSERT INTO " +db+ "personas_unal_uapa "+ "VALUES "
-						+ dni_persona+", "+tipo_dni_persona+", "+nombres+", "+apellidos+", "+nombres+" "+apellidos);
+				stmt = conn.createStatement();
+				int result = stmt.executeUpdate("INSERT INTO " +db+ "personas_unal_uapa "+
+				"(dni_persona, tipo_dni_persona, nombres, apellidos, nombre_completo)"+
+						"VALUES("+"'"+dni_persona+"',"+"'"+tipo_dni_persona+"',"+"'"+nombres+"',"+"'"+apellidos+"',"+"'"+nombres+" "+apellidos+"')"
+						);
 				if(result != 0) {
 					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +nombres+" "+apellidos);
 				}else {
@@ -252,7 +253,7 @@ public class Querys {
 			int columnsNumber = rsmd.getColumnCount();
 			data = new String[rowCount+1][columnsNumber];
 			row_names = new String[columnsNumber];
-			System.out.println("Total results: "+rowCount);
+			//System.out.println("Total results: "+rowCount);
 			
 			while (val) {
 				int j = 0;

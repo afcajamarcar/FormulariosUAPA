@@ -25,7 +25,7 @@ public class GetSomeFromFrame extends JFrame {
 	private JComboBox<String> comboTables;
 	private JScrollPane scrollPane;
 	private JTable dataTable;
-	private String[] tables = new String[] {"Null", "consolidado_reconocimientos_estudiantiles", "estudiantes", "programas", "reconocimientos", "rel_estudiante_programa"};
+	private String[] tables = new String[] {"Null", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private JButton btnAadirPersona;
 	private AddPersonFrame addPerson;
 
@@ -86,12 +86,24 @@ public class GetSomeFromFrame extends JFrame {
 				String[][] data = AuthenticationFrame.consult.getSomeFromTable(fieldBox.getSelectedItem().toString(), inputFieldValue.getText(), comboTables.getSelectedItem().toString());
 				String[] columnNames = data[0];
 				
+				/**
+				 * 
+				 
 				for (int i = 0; i < data.length-1; i++) {
 					data[i] = data[i+1];
 				}
-				System.out.println(Arrays.deepToString(data));
+				*/
 				
-				dataTable = new JTable(new DefaultTableModel(data,columnNames));
+				int r= data.length;
+		        int c= data[0].length;
+		        String [][] temp = new String [r-1][c];
+		        for(int k = 0; k < r-1; k++ ) {
+		        	for (int l = 0; l < c; l++) {
+		        		temp[k][l] = data[k+1][l];
+					}
+		        }
+		        
+				dataTable = new JTable(new DefaultTableModel(temp,columnNames));
 				dataTable.setAutoResizeMode(dataTable.AUTO_RESIZE_OFF);
 				scrollPane.setViewportView(dataTable);
 				
