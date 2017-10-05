@@ -43,7 +43,7 @@ public class AddPersonFrame extends JFrame {
 	 */
 	public AddPersonFrame() {
 		setTitle("A\u00F1adir Persona");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 304, 236);
 		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
@@ -168,6 +168,7 @@ public class AddPersonFrame extends JFrame {
 		typeDNILabel = new JLabel("Tipo DNI:");
 		typeDNILabel.setBounds(23, 14, 62, 14);
 		contentPane.add(typeDNILabel);
+		
 		
 		this.getRootPane().setDefaultButton(btnAadir);
 	}

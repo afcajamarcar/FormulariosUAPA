@@ -25,7 +25,7 @@ public class GetSomeFromFrame extends JFrame {
 	private JComboBox<String> comboTables;
 	private JScrollPane scrollPane;
 	private JTable dataTable;
-	private String[] tables = new String[] {"Null", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
+	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private JButton btnAadirPersona;
 	private AddPersonFrame addPerson;
 
