@@ -2,20 +2,17 @@ package ui;
 
 import java.awt.*;
 
-import javax.management.Query;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 
 import com.sun.glass.events.KeyEvent;
 
-import mysql.Querys;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 
 public class GetSomeFromFrame extends JFrame {
 
@@ -58,6 +55,17 @@ public class GetSomeFromFrame extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JMenu mnConsulta = new JMenu("Consultar");
+		menuBar.add(mnConsulta);
+		
+		JMenuItem mnSomeFromTable = new JMenuItem("Consulta Tabla");
+		mnSomeFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
+		mnConsulta.add(mnSomeFromTable);
+		
+		JMenuItem mnAllFromTable = new JMenuItem("Consulta especifica Tabla");
+		mnAllFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_MASK));
+		mnConsulta.add(mnAllFromTable);
 		
 		JMenu mnAadir = new JMenu("A\u00F1adir");
 		menuBar.add(mnAadir);
@@ -158,11 +166,11 @@ public class GetSomeFromFrame extends JFrame {
 	}
 
 
-	public JComboBox getFieldBox() {
+	public JComboBox<String> getFieldBox() {
 		return fieldBox;
 	}
 
-	public void setFieldBox(JComboBox fieldBox) {
+	public void setFieldBox(JComboBox<String>fieldBox) {
 		this.fieldBox = fieldBox;
 	}
 }
