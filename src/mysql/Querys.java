@@ -104,7 +104,6 @@ public class Querys {
 				String [][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion sobre: "+field_value.toString()+" en: "+db+table);
 				
-				//printMatrix(data);
 				return data;
 				
 			}catch(SQLException ex) {
@@ -140,7 +139,6 @@ public class Querys {
 				String[][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+table);
 				
-				//printMatrix(data);
 				
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
@@ -169,6 +167,9 @@ public class Querys {
 		String[] columnNames = null; 
 		try {
 			try {
+				if(table == "Seleccionar tabla...") {
+					return new String[0];
+				}
 				stmt = conn.prepareStatement("SELECT * FROM "+ db+table );
 				ResultSet result = stmt.executeQuery();
 				ResultSetMetaData rsmd = result.getMetaData();
