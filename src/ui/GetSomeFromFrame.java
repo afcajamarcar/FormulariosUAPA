@@ -30,6 +30,8 @@ public class GetSomeFromFrame extends JFrame {
 	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private AddPersonFrame addPerson;
 	private JMenuItem mntmAadirPersona;
+	private JMenuItem mntmReconocimiento;
+	private AddAwardFrame addAward;
 
 	/**
 	 * When external classes call this method, it launches the application.
@@ -78,7 +80,15 @@ public class GetSomeFromFrame extends JFrame {
 		JMenuItem mntmEstudiante = new JMenuItem("Estudiante");
 		mnAadir.add(mntmEstudiante);
 		
-		JMenuItem mntmReconocimiento = new JMenuItem("Reconocimiento");
+		mntmReconocimiento = new JMenuItem("Reconocimiento");
+		mntmReconocimiento.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addAward = new AddAwardFrame();
+				addAward.initialize();
+			}
+		});
 		mnAadir.add(mntmReconocimiento);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

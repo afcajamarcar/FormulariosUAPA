@@ -236,6 +236,36 @@ public class Querys {
 
 		
 	}
+	public String[] getCountry() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT id_pais,pais FROM uapa_db.v_paises");
+				ResultSet result = stmt.executeQuery();
+				String[][] countries = toMatrix(result);
+				String[] countries_fil = new String[countries.length-1];
+				for (int i = 1; i < countries.length; i++) {
+					countries_fil[i-1] = countries[i][0] +"-"+countries[i][1]; 
+				}
+				return countries_fil;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
 	/**
 	 * Puts the resultset into a matrix
 	 * @param result
@@ -255,7 +285,6 @@ public class Querys {
 			int columnsNumber = rsmd.getColumnCount();
 			data = new String[rowCount+1][columnsNumber];
 			row_names = new String[columnsNumber];
-			//System.out.println("Total results: "+rowCount);
 			
 			while (val) {
 				int j = 0;
