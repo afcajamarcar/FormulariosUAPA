@@ -12,9 +12,6 @@ import mysql.Querys;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -89,8 +86,7 @@ public class AuthenticationFrame extends JFrame {
 				consult = new Querys();
 				consult.connect(userInput.getText(), paswdInput.getText());
 				if(consult.isConnected()) {
-					GetSomeFromFrame getSomeFromFrame = new GetSomeFromFrame();
-					getSomeFromFrame.initialize();
+					HomeFrame.initialize();
 					frame.setVisible(false);
 				}else {
 					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
