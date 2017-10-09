@@ -39,6 +39,7 @@ public class HomeFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JButton btnGetSome = new JButton("<html><center>"+"Consulta especifica Tabla"+"</center></html>");
 		btnGetSome.addActionListener(new ActionListener() {
