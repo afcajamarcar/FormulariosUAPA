@@ -62,7 +62,7 @@ public class HomeFrame extends JFrame {
 		btnGetAll.setBounds(294, 36, 130, 47);
 		contentPane.add(btnGetAll);
 		
-		ImageIcon imageIcon = new ImageIcon(HomeFrame.class.getResource("/ui/UAPA_LOGO.png"));
+		ImageIcon imageIcon = new ImageIcon(HomeFrame.class.getResource("/resources/UAPA_LOGO.png"));
 		Image image = imageIcon.getImage().getScaledInstance(270, 150,  java.awt.Image.SCALE_SMOOTH); 
 		imageIcon = new ImageIcon(image);
 		JLabel lblImage = new JLabel(imageIcon);
