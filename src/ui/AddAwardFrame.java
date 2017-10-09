@@ -62,6 +62,7 @@ public class AddAwardFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(0, 2, 0, 0));
+		setLocationRelativeTo(null);
 		
 		lblcodRecnocimientos = new JLabel("cod_reconocimiento");
 		contentPane.add(lblcodRecnocimientos);
