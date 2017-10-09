@@ -2,20 +2,17 @@ package ui;
 
 import java.awt.*;
 
-import javax.management.Query;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 
 import com.sun.glass.events.KeyEvent;
 
-import mysql.Querys;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 
 public class GetSomeFromFrame extends JFrame {
 
@@ -30,15 +27,16 @@ public class GetSomeFromFrame extends JFrame {
 	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private AddPersonFrame addPerson;
 	private JMenuItem mntmAadirPersona;
+	private static GetSomeFromFrame frame;
 
 	/**
 	 * When external classes call this method, it launches the application.
 	 */
-	public void initialize() {
+	public static void initialize() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GetSomeFromFrame frame = new GetSomeFromFrame();
+					frame = new GetSomeFromFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,6 +56,29 @@ public class GetSomeFromFrame extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JMenu mnConsulta = new JMenu("Consultar");
+		menuBar.add(mnConsulta);
+		
+		JMenuItem mnSomeFromTable = new JMenuItem("Consulta Tabla");
+		mnSomeFromTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GetAllFromFrame.initialize();
+				frame.setVisible(false);
+			}
+		});
+		mnSomeFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
+		mnConsulta.add(mnSomeFromTable);
+		
+		JMenuItem mnAllFromTable = new JMenuItem("Consulta especifica Tabla");
+		mnAllFromTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GetSomeFromFrame.initialize();
+				frame.setVisible(false);
+			}
+		});
+		mnAllFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_MASK));
+		mnConsulta.add(mnAllFromTable);
 		
 		JMenu mnAadir = new JMenu("A\u00F1adir");
 		menuBar.add(mnAadir);
@@ -158,11 +179,11 @@ public class GetSomeFromFrame extends JFrame {
 	}
 
 
-	public JComboBox getFieldBox() {
+	public JComboBox<String> getFieldBox() {
 		return fieldBox;
 	}
 
-	public void setFieldBox(JComboBox fieldBox) {
+	public void setFieldBox(JComboBox<String>fieldBox) {
 		this.fieldBox = fieldBox;
 	}
 }
