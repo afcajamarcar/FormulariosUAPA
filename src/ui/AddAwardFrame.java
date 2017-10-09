@@ -32,8 +32,8 @@ public class AddAwardFrame extends JFrame {
 	private String[] ambitos = new String[] {"Seleccionar...", "Nacional", "Internacional", "Universidad", "Otro"};
 	private JComboBox comboAmbRec;
 	private String newAmbito;
-	private JTextField textField;
-	private JLabel lblNewLabel;
+	private JTextField otroTextField;
+	private JLabel lblOtroLabel;
 
 	/**
 	 * Launch the application.
@@ -93,14 +93,33 @@ public class AddAwardFrame extends JFrame {
 		
 		contentPane.add(comboAmbRec);
 		
-		lblNewLabel = new JLabel("New label");
-		lblNewLabel.setVisible(false);
-		contentPane.add(lblNewLabel);
+		lblOtroLabel = new JLabel("otro:");
+		lblOtroLabel.setVisible(false);
+		contentPane.add(lblOtroLabel);
 		
-		textField = new JTextField();
-		textField.setVisible(false);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		otroTextField = new JTextField();
+		otroTextField.setVisible(false);
+		contentPane.add(otroTextField);
+		otroTextField.setColumns(10);
+		otroTextField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String[] aux = new String[ambitos.length+1];
+				for (int i = 0; i < aux.length; i++) {
+					if(i < ambitos.length) {
+						aux[i] = ambitos[i];
+					}else {
+						aux[i] = "Otro";
+					}
+					if(i == ambitos.length-1) {
+						aux[i] = otroTextField.getText();
+					}
+				}
+				comboAmbRec.setModel(new DefaultComboBoxModel(aux));
+				
+			}
+		});
 		
 		JLabel lblCaracter = new JLabel("caracter: ");
 		contentPane.add(lblCaracter);
@@ -157,19 +176,11 @@ public class AddAwardFrame extends JFrame {
 		public void itemStateChanged(ItemEvent event) {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 				if(event.getItem().toString() == "Otro") {
-					textField.setVisible(true);
-					lblNewLabel.setVisible(true);
-					lblNewLabel.setOpaque(true);
-					lblNewLabel.setBackground(Color.gray);
-					String[] aux = new String[ambitos.length+1];
-					for (int i = 0; i < ambitos.length; i++) {
-						aux[i] = ambitos[i];
-						if(i == ambitos.length-1) {
-							aux[i] = newAmbito;
-							System.out.println(aux[i]);
-							}
-					}
-					comboAmbRec.setModel(new DefaultComboBoxModel(aux));
+					otroTextField.setVisible(true);
+					lblOtroLabel.setVisible(true);
+					lblOtroLabel.setOpaque(true);
+					lblOtroLabel.setBackground(Color.gray);
+					
 		          }
 		    }
 		}
