@@ -19,7 +19,6 @@ public class GetAllFromFrame extends JFrame {
 	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private AddPersonFrame addPerson;
 	private JMenuItem mntmAadirPersona;
-	private static GetAllFromFrame frame;
 	private JTable dataTable;
 
 	/**
@@ -29,7 +28,7 @@ public class GetAllFromFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new GetAllFromFrame();
+					GetAllFromFrame frame = new GetAllFromFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +56,7 @@ public class GetAllFromFrame extends JFrame {
 		mnSomeFromTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GetAllFromFrame.initialize();
-				frame.setVisible(false);
+				dispose();
 			}
 		});
 		mnSomeFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
@@ -67,7 +66,7 @@ public class GetAllFromFrame extends JFrame {
 		mnAllFromTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GetSomeFromFrame.initialize();
-				frame.setVisible(false);
+				dispose();
 			}
 		});
 		mnAllFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_MASK));

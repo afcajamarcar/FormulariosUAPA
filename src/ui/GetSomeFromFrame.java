@@ -29,7 +29,6 @@ public class GetSomeFromFrame extends JFrame {
 	private JMenuItem mntmAadirPersona;
 	private JMenuItem mntmReconocimiento;
 	private AddAwardFrame addAward;
-	private static GetSomeFromFrame frame;
 
 	/**
 	 * When external classes call this method, it launches the application.
@@ -38,7 +37,7 @@ public class GetSomeFromFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new GetSomeFromFrame();
+					GetSomeFromFrame frame = new GetSomeFromFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +65,7 @@ public class GetSomeFromFrame extends JFrame {
 		mnSomeFromTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GetAllFromFrame.initialize();
-				frame.setVisible(false);
+				dispose();
 			}
 		});
 		mnSomeFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
@@ -76,7 +75,7 @@ public class GetSomeFromFrame extends JFrame {
 		mnAllFromTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GetSomeFromFrame.initialize();
-				frame.setVisible(false);
+				dispose();
 			}
 		});
 		mnAllFromTable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_MASK));
