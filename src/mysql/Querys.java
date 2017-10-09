@@ -127,7 +127,7 @@ public class Querys {
 	 * Query for absolute consults
 	 * @param table
 	 */
-	public void getAllFromTable(String table) {
+	public String[][] getAllFromTable(String table) {
 		isConnected();
 		PreparedStatement stmt = null;
 		try {
@@ -139,7 +139,7 @@ public class Querys {
 				String[][] data = toMatrix(result);
 				if(data == null) JOptionPane.showMessageDialog(null, "No se encontro informacion en: "+db+table);
 				
-				
+				return data;
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -154,6 +154,7 @@ public class Querys {
 				e.printStackTrace();
 			}
 		}
+		return null;
 	}
 	
 	/**

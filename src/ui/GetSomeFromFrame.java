@@ -63,7 +63,7 @@ public class GetSomeFromFrame extends JFrame {
 		JMenuItem mnSomeFromTable = new JMenuItem("Consulta Tabla");
 		mnSomeFromTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GetSomeFromFrame.initialize();
+				GetAllFromFrame.initialize();
 				frame.setVisible(false);
 			}
 		});
