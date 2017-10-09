@@ -34,7 +34,7 @@ public class ConsolRecEstFrame extends JFrame {
 	 */
 	public ConsolRecEstFrame() {
 		setTitle("Consolidado Reconocimeintos Estudiantiles");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 633, 381);
 		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
