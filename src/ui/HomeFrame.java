@@ -69,7 +69,5 @@ public class HomeFrame extends JFrame {
 		JLabel lblImage = new JLabel(imageIcon);
 		lblImage.setBounds(10, 11, 274, 150);
 		contentPane.add(lblImage);
-		
-		
 	}
 }

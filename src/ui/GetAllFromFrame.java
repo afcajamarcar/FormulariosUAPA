@@ -20,6 +20,7 @@ public class GetAllFromFrame extends JFrame {
 	private AddPersonFrame addPerson;
 	private JMenuItem mntmAadirPersona;
 	private JTable dataTable;
+	private AddAwardFrame addAward;
 
 	/**
 	 * When external classes call this method, it launches the application.
@@ -92,9 +93,19 @@ public class GetAllFromFrame extends JFrame {
 		mnAadir.add(mntmEstudiante);
 		
 		JMenuItem mntmReconocimiento = new JMenuItem("Reconocimiento");
+		mntmReconocimiento.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
 		mnAadir.add(mntmReconocimiento);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		mntmReconocimiento.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addAward = new AddAwardFrame();
+				addAward.initialize();
+				
+			}
+		});
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -124,7 +135,7 @@ public class GetAllFromFrame extends JFrame {
 			}
 		});
 		comboTables.setFont(new Font("Calibri", Font.PLAIN, 10));
-		comboTables.setModel(new DefaultComboBoxModel<String>(tables));
+		comboTables.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getTableNames()));
 		comboTables.setBounds(88, 8, 131, 20);
 		contentPane.add(comboTables);
 		scrollPane = new JScrollPane();

@@ -101,6 +101,7 @@ public class GetSomeFromFrame extends JFrame {
 		mnAadir.add(mntmEstudiante);
 		
 		mntmReconocimiento = new JMenuItem("Reconocimiento");
+		mntmReconocimiento.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
 		mntmReconocimiento.addActionListener(new ActionListener() {
 			
 			@Override
@@ -161,7 +162,7 @@ public class GetSomeFromFrame extends JFrame {
 		
 		comboTables = new JComboBox<String>();
 		comboTables.setFont(new Font("Calibri", Font.PLAIN, 10));
-		comboTables.setModel(new DefaultComboBoxModel<String>(tables));
+		comboTables.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getTableNames()));
 		comboTables.setBounds(88, 8, 131, 20);
 		contentPane.add(comboTables);
 		scrollPane = new JScrollPane();

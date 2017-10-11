@@ -270,6 +270,42 @@ public class Querys {
 	/**
 	 * TODO Query for AddAwardFrame 
 	 */
+	/**
+	 * 
+	 * @return All tables names in uapadb
+	 */
+	public String[] getTableNames() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT TABLE_NAME \r\n" + 
+						"FROM INFORMATION_SCHEMA.TABLES\r\n" + 
+						"WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='uapa_db';");
+				ResultSet result = stmt.executeQuery();
+				String[][] tables = toMatrix(result);
+				String[] tables_fil = new String[tables.length-1];
+				for (int i = 1; i < tables.length; i++) {
+					tables_fil[i-1] = tables[i][0]; 
+				}
+				return tables_fil;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
 	
 	/**
 	 * Puts the resultset into a matrix
