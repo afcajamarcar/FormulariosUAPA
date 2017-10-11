@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -36,7 +38,13 @@ public class AddAwardFrame extends JFrame {
 	private JLabel lblOtroLabel;
 	private JComboBox<String> comboCarac;
 	private JComboBox<String> comboPaisIns;
-
+	
+	private boolean codReconocimientoTextFieldB = false;
+	private boolean InputTipRecB = false;
+	private boolean InputNomRecB = false;
+	private boolean InputInstRecB = false;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -70,6 +78,26 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(lblcodRecnocimientos);
 		
 		codReconocimientoTextField = new JTextField();
+		codReconocimientoTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				codReconocimientoTextFieldB = true;
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		contentPane.add(codReconocimientoTextField);
 		codReconocimientoTextField.setColumns(10);
 		
@@ -77,6 +105,26 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(lblTipRec);
 		
 		InputTipRec = new JTextField();
+		InputTipRec.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				InputTipRecB = true;
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		contentPane.add(InputTipRec);
 		InputTipRec.setColumns(10);
 		
@@ -84,6 +132,26 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(lblNomRec);
 		
 		InputNomRec = new JTextField();
+		InputNomRec.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				InputNomRecB = true;
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		InputNomRec.setColumns(10);
 		contentPane.add(InputNomRec);
 		
@@ -108,6 +176,10 @@ public class AddAwardFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				/**
+				 * 
+				 
 				String[] aux = new String[ambitos.length+1];
 				for (int i = 0; i < aux.length; i++) {
 					if(i < ambitos.length) {
@@ -119,8 +191,9 @@ public class AddAwardFrame extends JFrame {
 						aux[i] = otroTextField.getText();
 					}
 				}
-				comboAmbRec.setModel(new DefaultComboBoxModel<String>(aux));
 				
+				comboAmbRec.setModel(new DefaultComboBoxModel<String>(aux));
+				*/
 			}
 		});
 		
@@ -135,6 +208,29 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(lblInstitucinreconocimeinto);
 		
 		InputInstRec = new JTextField();
+		InputInstRec.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				InputInstRecB = true;
+				if(codReconocimientoTextFieldB && InputTipRecB && InputNomRecB && InputInstRecB) {
+					btnaddCountryButton.setEnabled(true);
+				}
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		InputInstRec.setColumns(10);
 		contentPane.add(InputInstRec);
 		
@@ -152,6 +248,7 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(label_1);
 		
 		btnaddCountryButton = new JButton("Añadir");
+		btnaddCountryButton.setEnabled(false);
 		btnaddCountryButton.addActionListener(new ActionListener() {
 			
 			@Override
