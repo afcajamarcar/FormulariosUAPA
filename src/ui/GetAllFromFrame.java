@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
@@ -129,7 +128,7 @@ public class GetAllFromFrame extends JFrame {
 		        }
 		        
 				dataTable = new JTable(new DefaultTableModel(temp,columnNames));
-				dataTable.setAutoResizeMode(dataTable.AUTO_RESIZE_OFF);
+				dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 				scrollPane.setViewportView(dataTable);
 			}
 		});

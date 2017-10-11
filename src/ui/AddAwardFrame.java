@@ -91,7 +91,7 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(lblAmbRec);
 		
 		comboAmbRec = new JComboBox<String>();
-		comboAmbRec.setModel(new DefaultComboBoxModel<String>(ambitos));
+		comboAmbRec.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getAmbito()));
 		comboAmbRec.addItemListener(new ItemChangeListener());
 		
 		contentPane.add(comboAmbRec);
@@ -128,7 +128,7 @@ public class AddAwardFrame extends JFrame {
 		contentPane.add(lblCaracter);
 		
 		comboCarac = new JComboBox<String>();
-		comboCarac.setModel(new DefaultComboBoxModel<String>(new String[] {"Seleccionar...", "Interna", "Externa"}));
+		comboCarac.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getCaracter()));
 		contentPane.add(comboCarac);
 		
 		JLabel lblInstitucinreconocimeinto = new JLabel("instituci\u00F3n_reconocimeinto:");

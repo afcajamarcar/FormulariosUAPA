@@ -12,6 +12,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -241,7 +243,7 @@ public class Querys {
 		PreparedStatement stmt = null;
 		try {
 			try {
-				stmt = conn.prepareStatement("SELECT id_pais,pais FROM uapa_db.v_paises");
+				stmt = conn.prepareStatement("SELECT id_pais,pais FROM "+ db +"v_paises");
 				ResultSet result = stmt.executeQuery();
 				String[][] countries = toMatrix(result);
 				String[] countries_fil = new String[countries.length-1];
@@ -270,9 +272,11 @@ public class Querys {
 	/**
 	 * TODO Query for AddAwardFrame 
 	 */
+	
 	/**
-	 * 
-	 * @return All tables names in uapadb
+	 * Performs a query where the names of all tables in uapa_db database are returned
+	 * It's done in order to fill programmatically drop lists in the form
+	 * @return All tables names in uapa_db.
 	 */
 	public String[] getTableNames() {
 		isConnected();
@@ -289,6 +293,88 @@ public class Querys {
 					tables_fil[i-1] = tables[i][0]; 
 				}
 				return tables_fil;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
+	/**
+	 * Gets Caracter values from reconocimientos.
+	 * @return Array of characters from awards.
+	 */
+	public String[] getCaracter() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT caracter FROM " +db+"reconocimientos;");
+				ResultSet result = stmt.executeQuery();
+				Set<String> s = new HashSet<String>(64);
+				int aux = 0;
+				String[][] recos = toMatrix(result);
+				for (int i = 1; i < recos.length; i++) {
+					s.add(recos[i][0]); 
+				}
+				String[] recos_fil = new String[s.size()];
+				for (String caracter : s) {
+					recos_fil[aux] = caracter;
+					aux+=1;
+				}
+				return recos_fil;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	} 
+	
+	/**
+	 * Gets Ambitos values from reconocimientos.
+	 * @return Array of areas from awards.
+	 */
+	public String[] getAmbito() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT ambito_reconocimiento FROM " +db+"reconocimientos;");
+				ResultSet result = stmt.executeQuery();
+				Set<String> s = new HashSet<String>(64);
+				int aux = 0;
+				String[][] areas = toMatrix(result);
+				for (int i = 1; i < areas.length; i++) {
+					s.add(areas[i][0]); 
+				}
+				String[] areas_fil = new String[s.size()+1];
+				for (String caracter : s) {
+					areas_fil[aux] = caracter;
+					aux+=1;
+				}
+				areas_fil[areas_fil.length-1] = "Otro"; //Added in case someone wants to add a new area 
+				return areas_fil;
 				
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
