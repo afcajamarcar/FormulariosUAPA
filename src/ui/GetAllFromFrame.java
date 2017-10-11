@@ -129,7 +129,7 @@ public class GetAllFromFrame extends JFrame {
 		        }
 		        
 				dataTable = new JTable(new DefaultTableModel(temp,columnNames));
-				dataTable.setAutoResizeMode(dataTable.AUTO_RESIZE_ALL_COLUMNS);
+				dataTable.setAutoResizeMode(dataTable.AUTO_RESIZE_OFF);
 				scrollPane.setViewportView(dataTable);
 			}
 		});
