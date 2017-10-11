@@ -19,12 +19,10 @@ public class GetSomeFromFrame extends JFrame {
 	private static final long serialVersionUID = 4L;
 	private JPanel contentPane;
 	private JTextField inputFieldValue;
-	private DefaultTableModel tableModel;
 	private JComboBox<String> fieldBox;
 	private JComboBox<String> comboTables;
 	private JScrollPane scrollPane;
 	private JTable dataTable;
-	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private AddPersonFrame addPerson;
 	private JMenuItem mntmAadirPersona;
 	private JMenuItem mntmReconocimiento;

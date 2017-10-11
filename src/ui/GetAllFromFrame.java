@@ -16,7 +16,6 @@ public class GetAllFromFrame extends JFrame {
 	private JPanel contentPane;
 	private JComboBox<String> comboTables;
 	private JScrollPane scrollPane;
-	private String[] tables = new String[] {"Seleccionar tabla...", "consolidado_reconocimientos_estudiantiles", "estudiantes","personas_unal_uapa", "programas", "reconocimientos", "rel_estudiante_programa"};
 	private AddPersonFrame addPerson;
 	private JMenuItem mntmAadirPersona;
 	private JTable dataTable;
