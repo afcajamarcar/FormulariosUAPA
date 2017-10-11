@@ -30,7 +30,7 @@ public class AddAwardFrame extends JFrame {
 	private JTextField InputInstRec;
 	private JLabel lblcodRecnocimientos;
 	private JTextField codReconocimientoTextField;
-	private JButton btnaddCountryButton;
+	private JButton btnaddAwardButton;
 	private String[] ambitos = new String[] {"Seleccionar...", "Nacional", "Internacional", "Universidad", "Otro"};
 	private JComboBox<String> comboAmbRec;
 	private String newAmbito;
@@ -214,7 +214,7 @@ public class AddAwardFrame extends JFrame {
 			public void keyTyped(KeyEvent e) {
 				InputInstRecB = true;
 				if(codReconocimientoTextFieldB && InputTipRecB && InputNomRecB && InputInstRecB) {
-					btnaddCountryButton.setEnabled(true);
+					btnaddAwardButton.setEnabled(true);
 				}
 				
 			}
@@ -247,18 +247,20 @@ public class AddAwardFrame extends JFrame {
 		JLabel label_1 = new JLabel("");
 		contentPane.add(label_1);
 		
-		btnaddCountryButton = new JButton("Añadir");
-		btnaddCountryButton.setEnabled(false);
-		btnaddCountryButton.addActionListener(new ActionListener() {
+		btnaddAwardButton = new JButton("Añadir");
+		btnaddAwardButton.setEnabled(false);
+		btnaddAwardButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AuthenticationFrame.consult.getCountry();
+				AuthenticationFrame.consult.addAward(codReconocimientoTextField.getText(), InputTipRec.getText(),
+						InputNomRec.getText(), comboAmbRec.getSelectedItem().toString(), comboCarac.getSelectedItem().toString(),
+						InputInstRec.getText(), splitCountry(comboPaisIns.getSelectedItem().toString()));
 				
 			}
 		});
 
-		contentPane.add(btnaddCountryButton);
+		contentPane.add(btnaddAwardButton);
 	}
 	
 	
@@ -270,7 +272,12 @@ public class AddAwardFrame extends JFrame {
 		this.newAmbito = newAmbito;
 	}
 
-
+	public String splitCountry(String countryPlusId) {
+		String country;
+		country =countryPlusId.split("-")[0];
+		return country;
+	}
+	
 	class ItemChangeListener implements ItemListener{
 		@Override
 		public void itemStateChanged(ItemEvent event) {

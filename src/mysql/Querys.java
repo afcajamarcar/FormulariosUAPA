@@ -215,10 +215,10 @@ public class Querys {
 				"(dni_persona, tipo_dni_persona, nombres, apellidos, nombre_completo)"+
 						"VALUES("+"'"+dni_persona+"',"+"'"+tipo_dni_persona+"',"+"'"+nombres+"',"+"'"+apellidos+"',"+"'"+nombres+" "+apellidos+"')"
 						);
-				if(result != 0) {
-					JOptionPane.showMessageDialog(null, "No se pudo aï¿½adir a: " +nombres+" "+apellidos);
+				if(result == 0) {
+					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +nombres+" "+apellidos);
 				}else {
-					JOptionPane.showMessageDialog(null, nombres+" "+apellidos+ " ha sido aï¿½adido.");
+					JOptionPane.showMessageDialog(null, nombres+" "+apellidos+ " ha sido añadido.");
 				}
 				
 			}catch(SQLException ex) {
@@ -392,6 +392,39 @@ public class Querys {
 		}		
 		return null;
 	}
+	
+	public void addAward(String cod_reconocimiento, String tipo_reconocimiento, String nombre_reconocimiento, String ambito_reconocimiento, String caracter, String institucion_otorga, String pais_institucion) {
+		isConnected();
+		Statement stmt = null;
+		try {
+			try {
+				stmt = conn.createStatement();
+				int result = stmt.executeUpdate("INSERT INTO " +db+ "reconocimientos "+
+				"(cod_reconocimiento, tipo_reconocimiento, nombre_reconocimiento, ambito_reconocimiento, caracter, institucion_otorga, pais_institucion)"+
+						"VALUES("+"'"+cod_reconocimiento+"',"+"'"+tipo_reconocimiento+"',"+"'"+nombre_reconocimiento+"',"+"'"+ambito_reconocimiento+"',"+"'"+caracter+"' ,"+"'"+institucion_otorga+"' ,"+"'"+pais_institucion+"')"
+						);
+				if(result == 0) {
+					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +cod_reconocimiento+" "+nombre_reconocimiento);
+				}else {
+					JOptionPane.showMessageDialog(null, cod_reconocimiento+" "+nombre_reconocimiento+ " ha sido añadido.");
+				}
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	
 	/**
 	 * Puts the resultset into a matrix
