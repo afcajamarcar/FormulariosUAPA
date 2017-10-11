@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -16,6 +18,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 
 public class AddAwardFrame extends JFrame {
@@ -261,6 +266,18 @@ public class AddAwardFrame extends JFrame {
 		});
 
 		contentPane.add(btnaddAwardButton);
+		this.getRootPane().setDefaultButton(btnaddAwardButton);
+		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false);
+		Action escapeAction = new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+			
+		};
+		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+		getRootPane().getActionMap().put("ESCAPE", escapeAction);
+
 	}
 	
 	
