@@ -1,17 +1,13 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
-import java.awt.TextField;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -22,6 +18,10 @@ import javax.swing.DefaultComboBoxModel;
 
 public class AddAwardFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField InputTipRec;
 	private JTextField InputNomRec;
@@ -30,10 +30,12 @@ public class AddAwardFrame extends JFrame {
 	private JTextField codReconocimientoTextField;
 	private JButton btnaddCountryButton;
 	private String[] ambitos = new String[] {"Seleccionar...", "Nacional", "Internacional", "Universidad", "Otro"};
-	private JComboBox comboAmbRec;
+	private JComboBox<String> comboAmbRec;
 	private String newAmbito;
 	private JTextField otroTextField;
 	private JLabel lblOtroLabel;
+	private JComboBox<String> comboCarac;
+	private JComboBox<String> comboPaisIns;
 
 	/**
 	 * Launch the application.
@@ -88,8 +90,8 @@ public class AddAwardFrame extends JFrame {
 		JLabel lblAmbRec = new JLabel("ambito_reconocimiento:");
 		contentPane.add(lblAmbRec);
 		
-		comboAmbRec = new JComboBox();
-		comboAmbRec.setModel(new DefaultComboBoxModel(ambitos));
+		comboAmbRec = new JComboBox<String>();
+		comboAmbRec.setModel(new DefaultComboBoxModel<String>(ambitos));
 		comboAmbRec.addItemListener(new ItemChangeListener());
 		
 		contentPane.add(comboAmbRec);
@@ -117,7 +119,7 @@ public class AddAwardFrame extends JFrame {
 						aux[i] = otroTextField.getText();
 					}
 				}
-				comboAmbRec.setModel(new DefaultComboBoxModel(aux));
+				comboAmbRec.setModel(new DefaultComboBoxModel<String>(aux));
 				
 			}
 		});
@@ -125,8 +127,8 @@ public class AddAwardFrame extends JFrame {
 		JLabel lblCaracter = new JLabel("caracter: ");
 		contentPane.add(lblCaracter);
 		
-		JComboBox comboCarac = new JComboBox();
-		comboCarac.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar...", "Interna", "Externa"}));
+		comboCarac = new JComboBox<String>();
+		comboCarac.setModel(new DefaultComboBoxModel<String>(new String[] {"Seleccionar...", "Interna", "Externa"}));
 		contentPane.add(comboCarac);
 		
 		JLabel lblInstitucinreconocimeinto = new JLabel("instituci\u00F3n_reconocimeinto:");
@@ -139,7 +141,7 @@ public class AddAwardFrame extends JFrame {
 		JLabel lblPaisinstitucin = new JLabel("pais_instituci\u00F3n:");
 		contentPane.add(lblPaisinstitucin);
 		
-		JComboBox comboPaisIns = new JComboBox();
+		comboPaisIns = new JComboBox<String>();
 		comboPaisIns.setModel(new DefaultComboBoxModel<String>(AuthenticationFrame.consult.getCountry()));
 		contentPane.add(comboPaisIns);
 		
