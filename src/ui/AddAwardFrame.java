@@ -258,10 +258,15 @@ public class AddAwardFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AuthenticationFrame.consult.addAward(codReconocimientoTextField.getText(), InputTipRec.getText(),
-						InputNomRec.getText(), comboAmbRec.getSelectedItem().toString(), comboCarac.getSelectedItem().toString(),
-						InputInstRec.getText(), splitCountry(comboPaisIns.getSelectedItem().toString()));
-				
+				if(!otroTextField.getText().isEmpty()) {
+					AuthenticationFrame.consult.addAward(codReconocimientoTextField.getText(), InputTipRec.getText(),
+							InputNomRec.getText(), otroTextField.getText(), comboCarac.getSelectedItem().toString(),
+							InputInstRec.getText(), splitCountry(comboPaisIns.getSelectedItem().toString()));
+				}else {
+					AuthenticationFrame.consult.addAward(codReconocimientoTextField.getText(), InputTipRec.getText(),
+							InputNomRec.getText(), comboAmbRec.getSelectedItem().toString(), comboCarac.getSelectedItem().toString(),
+							InputInstRec.getText(), splitCountry(comboPaisIns.getSelectedItem().toString()));
+				} 
 			}
 		});
 
