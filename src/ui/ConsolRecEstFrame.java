@@ -16,7 +16,7 @@ public class ConsolRecEstFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public void initialize() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -98,7 +98,7 @@ public class ConsolRecEstFrame extends JFrame {
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
 		comboBox.setBounds(385, 11, 131, 20);
 		contentPane.add(comboBox);
-		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"2009-01", "2009-02", "2009-03", "2010-01", "2010-02", "2010-03", "2011-01", "2011-02", "2011-03", "2012-01", "2012-02", "2012-03", "2013-01", "2013-02", "2013-03", "2014-01", "2014-02", "2014-03", "2015-01", "2015-02", "2015-03", "2016-01", "2016-02", "2016-03", "2017-01", "2017-02", "2017-03"}));
+		comboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getPeriod()));
 		
 		JLabel lblPeriodo = new JLabel("Periodo: ");
 		lblPeriodo.setFont(new Font("Calibri", Font.PLAIN, 11));

@@ -12,6 +12,8 @@ public class HomeFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static HomeFrame frame;
+	private JButton btnConsolidados;
+	private ConsolRecEstFrame consolRecEstFrame;
 
 	/**
 	 * Launch the application.
@@ -34,7 +36,7 @@ public class HomeFrame extends JFrame {
 	 */
 	public HomeFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 237);
+		setBounds(100, 100, 450, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -49,7 +51,7 @@ public class HomeFrame extends JFrame {
 			}
 		});
 		btnGetSome.setFont(new Font("Calibri Light", Font.PLAIN, 11));
-		btnGetSome.setBounds(294, 105, 130, 47);
+		btnGetSome.setBounds(294, 92, 130, 47);
 		contentPane.add(btnGetSome);
 		
 		JButton btnGetAll = new JButton("<html><center>"+"Consulta Tabla"+"</center></html>");
@@ -60,14 +62,28 @@ public class HomeFrame extends JFrame {
 			}
 		});
 		btnGetAll.setFont(new Font("Calibri Light", Font.PLAIN, 11));
-		btnGetAll.setBounds(294, 36, 130, 47);
+		btnGetAll.setBounds(294, 23, 130, 47);
 		contentPane.add(btnGetAll);
 		
 		ImageIcon imageIcon = new ImageIcon(HomeFrame.class.getResource("/resources/UAPA_LOGO.png"));
 		Image image = imageIcon.getImage().getScaledInstance(270, 150,  java.awt.Image.SCALE_SMOOTH); 
 		imageIcon = new ImageIcon(image);
 		JLabel lblImage = new JLabel(imageIcon);
-		lblImage.setBounds(10, 11, 274, 150);
+		lblImage.setBounds(10, 35, 274, 150);
 		contentPane.add(lblImage);
+		
+		btnConsolidados = new JButton("Consolidados");
+		btnConsolidados.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		btnConsolidados.setBounds(294, 162, 130, 38);
+		btnConsolidados.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				consolRecEstFrame = new ConsolRecEstFrame();
+				consolRecEstFrame.initialize();
+				
+			}
+		});
+		contentPane.add(btnConsolidados);
 	}
 }

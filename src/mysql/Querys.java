@@ -11,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -270,10 +273,6 @@ public class Querys {
 	}
 	
 	/**
-	 * TODO Query for AddAwardFrame 
-	 */
-	
-	/**
 	 * Performs a query where the names of all tables in uapa_db database are returned
 	 * It's done in order to fill programmatically drop lists in the form
 	 * @return All tables names in uapa_db.
@@ -425,7 +424,51 @@ public class Querys {
 		}
 	}
 
-	
+	public String[] getPeriod() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT periodo FROM "+ db +"consolidado_reconocimientos_estudiantiles");
+				ResultSet result = stmt.executeQuery();
+				String[][] periods = toMatrix(result);
+				Set<String> s = new HashSet<String>(64);
+				for (int i = 1; i < periods.length; i++) {
+					s.add(periods[i][0]); 
+				}
+				String[] periods_fil = s.toArray(new String[s.size()]);
+				ArrayList<String> temp = new ArrayList<>(); 
+				for (int i = 0; i < periods_fil.length; i++) {
+					temp.add(periods_fil[i]);
+				}
+				Collections.sort(temp, new Comparator<String>() {
+				    public int compare(String o1, String o2) {
+				        Integer i1 = Integer.parseInt(o1.split("-")[0]);
+				        Integer i2 = Integer.parseInt(o2.split("-")[0]);
+				        return (i1 > i2 ? 1 : (i1 == i2 ? 0 : -1));
+				    }
+				});
+				
+				String[] periods_final = temp.toArray(new String[temp.size()]);
+				
+				return periods_final;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
 	/**
 	 * Puts the resultset into a matrix
 	 * @param result
