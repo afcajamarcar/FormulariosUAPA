@@ -208,15 +208,15 @@ public class Querys {
 		return null;
 
 	}
-	public void addPerson(String dni_persona, String tipo_dni_persona, String nombres, String apellidos) {
+	public void addPerson(String dni_persona, String tipo_dni_persona, String nombres, String apellidos, String usuarioUnal) {
 		isConnected();
 		Statement stmt = null;
 		try {
 			try {
 				stmt = conn.createStatement();
 				int result = stmt.executeUpdate("INSERT INTO " +db+ "personas_unal_uapa "+
-				"(dni_persona, tipo_dni_persona, nombres, apellidos, nombre_completo)"+
-						"VALUES("+"'"+dni_persona+"',"+"'"+tipo_dni_persona+"',"+"'"+nombres+"',"+"'"+apellidos+"',"+"'"+nombres+" "+apellidos+"')"
+				"(dni_persona, tipo_dni_persona, nombres, apellidos, nombre_completo, usuario_unal)"+
+						"VALUES("+"'"+dni_persona+"',"+"'"+tipo_dni_persona+"',"+"'"+nombres+"',"+"'"+apellidos+"',"+"'"+nombres+" "+apellidos+"',"+"'"+usuarioUnal+"')"
 						);
 				if(result == 0) {
 					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +nombres+" "+apellidos);
