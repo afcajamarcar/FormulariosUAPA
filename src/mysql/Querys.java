@@ -469,6 +469,43 @@ public class Querys {
 		}		
 		return null;
 	}
+	
+	public String[] getProgram() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT programa FROM "+ db +"programas");
+				ResultSet result = stmt.executeQuery();
+				String[][] periods = toMatrix(result);
+				Set<String> s = new HashSet<String>(64);
+				for (int i = 1; i < periods.length; i++) {
+					s.add(periods[i][0]); 
+				}
+				String[] periods_fil = s.toArray(new String[s.size()]);
+				ArrayList<String> temp = new ArrayList<>(); 
+				for (int i = 0; i < periods_fil.length; i++) {
+					temp.add(periods_fil[i]);
+				}
+				Collections.sort(temp);
+				return temp.toArray(new String[temp.size()]);
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
 	/**
 	 * Puts the resultset into a matrix
 	 * @param result
