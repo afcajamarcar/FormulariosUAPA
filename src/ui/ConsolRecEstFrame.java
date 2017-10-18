@@ -12,11 +12,13 @@ public class ConsolRecEstFrame extends JFrame {
 	private JTextField nombresInput;
 	private JTextField apellidosInput;
 	private JTable table;
+	private JComboBox<Object> programasBox;
+	private JComboBox<Object> periodComboBox;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public void initialize() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -47,13 +49,11 @@ public class ConsolRecEstFrame extends JFrame {
 		contentPane.add(lblProgramas);
 		lblProgramas.setFont(new Font("Calibri", Font.PLAIN, 11));
 		
-		JComboBox<Object> programasBox = new JComboBox<Object>();
+		programasBox = new JComboBox<Object>();
 		programasBox.setBounds(79, 66, 432, 20);
 		contentPane.add(programasBox);
 		programasBox.setFont(new Font("Calibri", Font.PLAIN, 11));
-		programasBox.setEnabled(false);
-		programasBox.setEditable(true);
-		
+		programasBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgram()));
 		apellidosInput = new JTextField();
 		apellidosInput.setBounds(387, 40, 220, 20);
 		contentPane.add(apellidosInput);
@@ -94,11 +94,11 @@ public class ConsolRecEstFrame extends JFrame {
 		contentPane.add(btnBuscar);
 		btnBuscar.setFont(new Font("Calibri", Font.PLAIN, 11));
 		
-		JComboBox<Object> comboBox = new JComboBox<Object>();
-		comboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
-		comboBox.setBounds(385, 11, 131, 20);
-		contentPane.add(comboBox);
-		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"2009-01", "2009-02", "2009-03", "2010-01", "2010-02", "2010-03", "2011-01", "2011-02", "2011-03", "2012-01", "2012-02", "2012-03", "2013-01", "2013-02", "2013-03", "2014-01", "2014-02", "2014-03", "2015-01", "2015-02", "2015-03", "2016-01", "2016-02", "2016-03", "2017-01", "2017-02", "2017-03"}));
+		periodComboBox = new JComboBox<Object>();
+		periodComboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
+		periodComboBox.setBounds(385, 11, 131, 20);
+		contentPane.add(periodComboBox);
+		periodComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getPeriod()));
 		
 		JLabel lblPeriodo = new JLabel("Periodo: ");
 		lblPeriodo.setFont(new Font("Calibri", Font.PLAIN, 11));

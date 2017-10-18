@@ -11,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -217,20 +220,20 @@ public class Querys {
 	 * @param nombres
 	 * @param apellidos
 	 */
-	public void addPerson(String dni_persona, String tipo_dni_persona, String nombres, String apellidos) {
+	public void addPerson(String dni_persona, String tipo_dni_persona, String nombres, String apellidos, String usuarioUnal) {
 		isConnected();
 		Statement stmt = null;
 		try {
 			try {
 				stmt = conn.createStatement();
 				int result = stmt.executeUpdate("INSERT INTO " +db+ "personas_unal_uapa "+
-				"(dni_persona, tipo_dni_persona, nombres, apellidos, nombre_completo)"+
-						"VALUES("+"'"+dni_persona+"',"+"'"+tipo_dni_persona+"',"+"'"+nombres+"',"+"'"+apellidos+"',"+"'"+nombres+" "+apellidos+"')"
+				"(dni_persona, tipo_dni_persona, nombres, apellidos, nombre_completo, usuario_unal)"+
+						"VALUES("+"'"+dni_persona+"',"+"'"+tipo_dni_persona+"',"+"'"+nombres+"',"+"'"+apellidos+"',"+"'"+nombres+" "+apellidos+"',"+"'"+usuarioUnal+"')"
 						);
 				if(result == 0) {
-					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +nombres+" "+apellidos);
+					JOptionPane.showMessageDialog(null, "No se pudo aï¿½adir a: " +nombres+" "+apellidos);
 				}else {
-					JOptionPane.showMessageDialog(null, nombres+" "+apellidos+ " ha sido añadido.");
+					JOptionPane.showMessageDialog(null, nombres+" "+apellidos+ " ha sido aï¿½adido.");
 				}
 				
 			}catch(SQLException ex) {
@@ -285,10 +288,6 @@ public class Querys {
 		}		
 		return null;
 	}
-	
-	/**
-	 * TODO Query for AddAwardFrame 
-	 */
 	
 	/**
 	 * Performs a query where the names of all tables in uapa_db database are returned
@@ -421,9 +420,9 @@ public class Querys {
 						"VALUES("+"'"+cod_reconocimiento+"',"+"'"+tipo_reconocimiento+"',"+"'"+nombre_reconocimiento+"',"+"'"+ambito_reconocimiento+"',"+"'"+caracter+"' ,"+"'"+institucion_otorga+"' ,"+"'"+pais_institucion+"')"
 						);
 				if(result == 0) {
-					JOptionPane.showMessageDialog(null, "No se pudo añadir a: " +cod_reconocimiento+" "+nombre_reconocimiento);
+					JOptionPane.showMessageDialog(null, "No se pudo aï¿½adir a: " +cod_reconocimiento+" "+nombre_reconocimiento);
 				}else {
-					JOptionPane.showMessageDialog(null, cod_reconocimiento+" "+nombre_reconocimiento+ " ha sido añadido.");
+					JOptionPane.showMessageDialog(null, cod_reconocimiento+" "+nombre_reconocimiento+ " ha sido aï¿½adido.");
 				}
 				
 			}catch(SQLException ex) {
@@ -442,7 +441,88 @@ public class Querys {
 		}
 	}
 
+	public String[] getPeriod() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT periodo FROM "+ db +"consolidado_reconocimientos_estudiantiles");
+				ResultSet result = stmt.executeQuery();
+				String[][] periods = toMatrix(result);
+				Set<String> s = new HashSet<String>(64);
+				for (int i = 1; i < periods.length; i++) {
+					s.add(periods[i][0]); 
+				}
+				String[] periods_fil = s.toArray(new String[s.size()]);
+				ArrayList<String> temp = new ArrayList<>(); 
+				for (int i = 0; i < periods_fil.length; i++) {
+					temp.add(periods_fil[i]);
+				}
+				Collections.sort(temp, new Comparator<String>() {
+				    public int compare(String o1, String o2) {
+				        Integer i1 = Integer.parseInt(o1.split("-")[0]);
+				        Integer i2 = Integer.parseInt(o2.split("-")[0]);
+				        return (i1 > i2 ? 1 : (i1 == i2 ? 0 : -1));
+				    }
+				});
+				
+				String[] periods_final = temp.toArray(new String[temp.size()]);
+				
+				return periods_final;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
 	
+	public String[] getProgram() {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT programa FROM "+ db +"programas");
+				ResultSet result = stmt.executeQuery();
+				String[][] periods = toMatrix(result);
+				Set<String> s = new HashSet<String>(64);
+				for (int i = 1; i < periods.length; i++) {
+					s.add(periods[i][0]); 
+				}
+				String[] periods_fil = s.toArray(new String[s.size()]);
+				ArrayList<String> temp = new ArrayList<>(); 
+				for (int i = 0; i < periods_fil.length; i++) {
+					temp.add(periods_fil[i]);
+				}
+				Collections.sort(temp);
+				return temp.toArray(new String[temp.size()]);
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	}
 	/**
 	 * Puts the resultset into a matrix
 	 * @param result

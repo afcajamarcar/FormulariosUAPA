@@ -21,8 +21,10 @@ public class AddPersonFrame extends JFrame {
 	private JLabel typeDNILabel;
 	private String[] dniTypes = new String[] {"CC", "TI", "PS"};
 	private JComboBox<String> typeDNIBox;
-	private boolean dniInputB, nombresInputB, apellidosInputB = false;
+	private boolean dniInputB, nombresInputB, apellidosInputB, userInputB = false;
 	private JButton btnAadir;
+	private JTextField userTextField;
+	private JLabel lbluserEmail;
 
 	/**
 	 * Launch the application.
@@ -46,7 +48,7 @@ public class AddPersonFrame extends JFrame {
 	public AddPersonFrame() {
 		setTitle("A\u00F1adir Persona");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 304, 236);
+		setBounds(100, 100, 304, 283);
 		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,7 +56,7 @@ public class AddPersonFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNombres = new JLabel("Nombres: ");
-		lblNombres.setBounds(23, 82, 62, 14);
+		lblNombres.setBounds(23, 81, 62, 14);
 		contentPane.add(lblNombres);
 		
 		JLabel lblDni = new JLabel("DNI: ");
@@ -62,17 +64,26 @@ public class AddPersonFrame extends JFrame {
 		contentPane.add(lblDni);
 		
 		JLabel lblApellidos = new JLabel("Apellidos: ");
-		lblApellidos.setBounds(23, 119, 62, 14);
+		lblApellidos.setBounds(23, 120, 62, 14);
 		contentPane.add(lblApellidos);
 		
 		btnAadir = new JButton("A\u00F1adir");
-		btnAadir.setBounds(96, 161, 89, 23);
+		btnAadir.setBounds(96, 210, 89, 23);
 		btnAadir.setEnabled(false);
 		btnAadir.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				AuthenticationFrame.consult.addPerson(dniInput.getText(), typeDNIBox.getSelectedItem().toString(), nombresInput.getText(), apellidosInput.getText());
+				String aux = null;
+				String[] splitted = userTextField.getText().split("@"); 
+				int t = splitted.length;
+				if( t != 0) {
+					aux = splitted[0]; 
+					AuthenticationFrame.consult.addPerson(dniInput.getText(), typeDNIBox.getSelectedItem().toString(), nombresInput.getText(), apellidosInput.getText(), aux);
+				}else {
+					AuthenticationFrame.consult.addPerson(dniInput.getText(), typeDNIBox.getSelectedItem().toString(), nombresInput.getText(), apellidosInput.getText(), userTextField.getText());
+				}
+				
 			}
 		});
 		contentPane.add(btnAadir);
@@ -85,7 +96,7 @@ public class AddPersonFrame extends JFrame {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				dniInputB = true;
-				if(dniInputB && nombresInputB && apellidosInputB) {
+				if(dniInputB && nombresInputB && apellidosInputB && userInputB) {
 					btnAadir.setEnabled(true);
 				}
 				
@@ -108,13 +119,13 @@ public class AddPersonFrame extends JFrame {
 		
 		nombresInput = new JTextField();
 		nombresInput.setColumns(10);
-		nombresInput.setBounds(95, 82, 183, 20);
+		nombresInput.setBounds(95, 81, 183, 20);
 		nombresInput.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
 				nombresInputB = true;
-				if(dniInputB && nombresInputB && apellidosInputB) {
+				if(dniInputB && nombresInputB && apellidosInputB && userInputB) {
 					btnAadir.setEnabled(true);
 				}
 				
@@ -136,13 +147,13 @@ public class AddPersonFrame extends JFrame {
 		
 		apellidosInput = new JTextField();
 		apellidosInput.setColumns(10);
-		apellidosInput.setBounds(95, 119, 183, 20);
+		apellidosInput.setBounds(95, 120, 183, 20);
 		apellidosInput.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
 				apellidosInputB = true;
-				if(dniInputB && nombresInputB && apellidosInputB) {
+				if(dniInputB && nombresInputB && apellidosInputB && userInputB) {
 					btnAadir.setEnabled(true);
 				}
 				
@@ -173,6 +184,39 @@ public class AddPersonFrame extends JFrame {
 		
 		
 		this.getRootPane().setDefaultButton(btnAadir);
+		
+		lbluserEmail = new JLabel("Usuario:");
+		lbluserEmail.setBounds(23, 162, 62, 14);
+		contentPane.add(lbluserEmail);
+		
+		userTextField = new JTextField();
+		userTextField.setBounds(95, 159, 183, 20);
+		userTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				userInputB = true;
+				if(dniInputB && nombresInputB && apellidosInputB && userInputB) {
+					btnAadir.setEnabled(true);
+				}
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		contentPane.add(userTextField);
+		userTextField.setColumns(10);
+		userTextField.setToolTipText("usuario sin '@unal.edu.co'");
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false);
 		Action escapeAction = new AbstractAction() {
 
