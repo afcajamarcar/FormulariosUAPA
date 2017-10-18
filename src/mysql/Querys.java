@@ -24,8 +24,8 @@ public class Querys {
 
 	private Connection conn;
 	
-	/*
-	 * Strings for querys and database connection
+	/**
+	 * Strings with database name and port
 	 */
 	private final String dbUrl = "jdbc:mysql://UAPA03:3306/uapa_db?verifyServerCertificate=false&useSSL=true";
 	private String db = "uapa_db.";	
@@ -61,7 +61,8 @@ public class Querys {
 	}
 	
 	/**
-	 * Checks the state of the connection
+	 * Checks the state of the connection 
+	 * @return true if the connection is active, false otherwise
 	 */
 	public boolean isConnected() {
 		if(conn == null) {
@@ -71,6 +72,9 @@ public class Querys {
 		return true;
 	}
 	
+	/**
+	 * Closes de conection with the database
+	 */
 	public void disconnect() {
 		try {
 			if(conn.isClosed()) {
@@ -90,7 +94,7 @@ public class Querys {
 	 * @param field_name
 	 * @param field_value
 	 * @param table
-	 * @return
+	 * @return all data from a certain table
 	 */
 	public String[][] getSomeFromTable(String field_name, String field_value, String table) {
 		isConnected();
@@ -205,6 +209,14 @@ public class Querys {
 		return null;
 
 	}
+	
+	/**
+	 * Query for inserting a new person into personas_unal_uapa table.
+	 * @param dni_persona
+	 * @param tipo_dni_persona
+	 * @param nombres
+	 * @param apellidos
+	 */
 	public void addPerson(String dni_persona, String tipo_dni_persona, String nombres, String apellidos) {
 		isConnected();
 		Statement stmt = null;
@@ -238,6 +250,11 @@ public class Querys {
 
 		
 	}
+	
+	/**
+	 * Query for obtaining all the data (id_pais and pais) from v_paises
+	 * @return An array with al the countries in said table 
+	 */
 	public String[] getCountry() {
 		isConnected();
 		PreparedStatement stmt = null;
@@ -467,6 +484,10 @@ public class Querys {
 		return data;
 	}
 	
+	/**
+	 * Prints a two dimensional String array
+	 * @param a two dimensional array of Strings, data
+	 */
 	public void printMatrix(String [][] data) {
 		System.out.println(Arrays.deepToString(data));		
 	}
