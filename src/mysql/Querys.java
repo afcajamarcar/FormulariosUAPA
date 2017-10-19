@@ -523,6 +523,42 @@ public class Querys {
 		}		
 		return null;
 	}
+	
+	public void getProgramForConsol(String dni, String period) {
+		isConnected();
+		PreparedStatement stmt = null;
+		try {
+			try {
+				stmt = conn.prepareStatement("SELECT programa FROM "+ db+"programas WHERE cod_programa IN (SELECT cod_programa FROM "+db+"consolidado_reconocimientos_estudiantiles WHERE dni_estudiante="+dni+" AND periodo="+period+")");
+				//SELECT programa FROM uapa_db.programas WHERE cod_programa IN (SELECT cod_programa FROM uapa_db.consolidado_reconocimientos_estudiantiles WHERE dni_estudiante='1003739139' AND periodo='2012-03')
+				ResultSet result = stmt.executeQuery();
+				String[][] programs = toMatrix(result);
+				String[] toReturn = new String[programs.length-1];
+				printMatrix(programs);
+				/*
+ 				for (int i = 0; i < programs.length; i++) {
+					
+				}
+				*/
+				//return ;
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+		//return null;
+	}
+	
 	/**
 	 * Puts the resultset into a matrix
 	 * @param result

@@ -1,6 +1,11 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -9,10 +14,8 @@ public class ConsolRecEstFrame extends JFrame {
 	private static final long serialVersionUID = 2L;
 	private JPanel contentPane;
 	private JTextField dniInput;
-	private JTextField nombresInput;
-	private JTextField apellidosInput;
 	private JTable table;
-	private JComboBox<Object> programasBox;
+	private JComboBox<Object> programasComboBox;
 	private JComboBox<Object> periodComboBox;
 
 	/**
@@ -45,73 +48,73 @@ public class ConsolRecEstFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblProgramas = new JLabel("Programa(s): ");
-		lblProgramas.setBounds(10, 69, 66, 14);
+		lblProgramas.setBounds(10, 86, 66, 14);
 		contentPane.add(lblProgramas);
 		lblProgramas.setFont(new Font("Calibri", Font.PLAIN, 11));
 		
-		programasBox = new JComboBox<Object>();
-		programasBox.setBounds(79, 66, 432, 20);
-		contentPane.add(programasBox);
-		programasBox.setFont(new Font("Calibri", Font.PLAIN, 11));
-		programasBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgram()));
-		apellidosInput = new JTextField();
-		apellidosInput.setBounds(387, 40, 220, 20);
-		contentPane.add(apellidosInput);
-		apellidosInput.setFont(new Font("Calibri", Font.PLAIN, 11));
-		apellidosInput.setEnabled(false);
-		apellidosInput.setColumns(10);
-		
-		JLabel lblApellidos = new JLabel("Apellidos: ");
-		lblApellidos.setBounds(326, 41, 49, 14);
-		contentPane.add(lblApellidos);
-		lblApellidos.setFont(new Font("Calibri", Font.PLAIN, 11));
-		
-		nombresInput = new JTextField();
-		nombresInput.setBounds(79, 40, 231, 20);
-		contentPane.add(nombresInput);
-		nombresInput.setFont(new Font("Calibri", Font.PLAIN, 11));
-		nombresInput.setEnabled(false);
-		nombresInput.setColumns(10);
-		
-		JLabel lblNombres = new JLabel("Nombres: ");
-		lblNombres.setBounds(10, 42, 49, 14);
-		contentPane.add(lblNombres);
-		lblNombres.setFont(new Font("Calibri", Font.PLAIN, 11));
+		programasComboBox = new JComboBox<Object>();
+		programasComboBox.setBounds(79, 83, 213, 20);
+		contentPane.add(programasComboBox);
+		programasComboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
+		programasComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgram()));
 		
 		dniInput = new JTextField();
-		dniInput.setBounds(80, 11, 231, 20);
+		dniInput.setBounds(79, 52, 131, 20);
 		contentPane.add(dniInput);
 		dniInput.setFont(new Font("Calibri", Font.PLAIN, 11));
 		dniInput.setColumns(10);
+		dniInput.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					if(dniInput.getText().toString().length() == 0) {
+						JOptionPane.showMessageDialog(null, "El documento de identificacion no puede estar vacio");
+					}else {
+						AuthenticationFrame.consult.getProgramForConsol(dniInput.getText().toString(),periodComboBox.getSelectedItem().toString());
+					}
+		
+				}
+				
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		JLabel lblDni = new JLabel("DNI: ");
-		lblDni.setBounds(10, 11, 25, 14);
+		lblDni.setBounds(10, 55, 25, 14);
 		contentPane.add(lblDni);
 		lblDni.setFont(new Font("Calibri", Font.PLAIN, 11));
 		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(531, 66, 76, 23);
-		contentPane.add(btnBuscar);
-		btnBuscar.setFont(new Font("Calibri", Font.PLAIN, 11));
-		
 		periodComboBox = new JComboBox<Object>();
 		periodComboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
-		periodComboBox.setBounds(385, 11, 131, 20);
+		periodComboBox.setBounds(79, 21, 131, 20);
 		contentPane.add(periodComboBox);
 		periodComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getPeriod()));
 		
 		JLabel lblPeriodo = new JLabel("Periodo: ");
 		lblPeriodo.setFont(new Font("Calibri", Font.PLAIN, 11));
-		lblPeriodo.setBounds(330, 11, 46, 14);
+		lblPeriodo.setBounds(10, 21, 46, 14);
 		contentPane.add(lblPeriodo);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 94, 597, 237);
+		panel.setBounds(307, 166, 300, 165);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 597, 237);
+		scrollPane.setBounds(0, 0, 597, 165);
 		panel.add(scrollPane);
 		
 		table = new JTable();
