@@ -524,24 +524,23 @@ public class Querys {
 		return null;
 	}
 	
-	public void getProgramForConsol(String dni, String period) {
+	public String[] getProgramForConsol(String dni, String period) {
 		isConnected();
 		PreparedStatement stmt = null;
 		try {
 			try {
-				stmt = conn.prepareStatement("SELECT programa FROM "+ db+"programas WHERE cod_programa IN (SELECT cod_programa FROM "+db+"consolidado_reconocimientos_estudiantiles WHERE dni_estudiante="+dni+" AND periodo="+period+")");
-				//SELECT programa FROM uapa_db.programas WHERE cod_programa IN (SELECT cod_programa FROM uapa_db.consolidado_reconocimientos_estudiantiles WHERE dni_estudiante='1003739139' AND periodo='2012-03')
+				stmt = conn.prepareStatement("SELECT programa FROM "+ db+"programas WHERE cod_programa IN (SELECT cod_programa FROM "+db+"consolidado_reconocimientos_estudiantiles WHERE dni_estudiante=? AND periodo=?)");
+				stmt.setString(1, dni);
+				stmt.setString(2, period);
 				ResultSet result = stmt.executeQuery();
 				String[][] programs = toMatrix(result);
 				String[] toReturn = new String[programs.length-1];
-				printMatrix(programs);
-				/*
- 				for (int i = 0; i < programs.length; i++) {
-					
+				int iter = 0;
+				for (int i = 1; i < programs.length; i++) {
+					toReturn[iter]=programs[i][0];
 				}
-				*/
-				//return ;
-				
+
+				return toReturn;
 			}catch(SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -556,7 +555,7 @@ public class Querys {
 				e.printStackTrace();
 			}
 		}		
-		//return null;
+		return null;
 	}
 	
 	/**

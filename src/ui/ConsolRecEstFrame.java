@@ -56,7 +56,7 @@ public class ConsolRecEstFrame extends JFrame {
 		programasComboBox.setBounds(79, 83, 213, 20);
 		contentPane.add(programasComboBox);
 		programasComboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
-		programasComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgram()));
+		//programasComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgram()));
 		
 		dniInput = new JTextField();
 		dniInput.setBounds(79, 52, 131, 20);
@@ -77,7 +77,7 @@ public class ConsolRecEstFrame extends JFrame {
 					if(dniInput.getText().toString().length() == 0) {
 						JOptionPane.showMessageDialog(null, "El documento de identificacion no puede estar vacio");
 					}else {
-						AuthenticationFrame.consult.getProgramForConsol(dniInput.getText().toString(),periodComboBox.getSelectedItem().toString());
+						programasComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgramForConsol(dniInput.getText().toString(),periodComboBox.getSelectedItem().toString())));
 					}
 		
 				}
