@@ -19,6 +19,8 @@ public class ConsolRecEstFrame extends JFrame {
 	private JComboBox<Object> periodComboBox;
 	private JScrollPane personScrollPane;
 	private JTable dataTable;
+	private JButton btnEditar;
+	private UpdatePersonFrame updatePersonFrame;
 
 	/**
 	 * Launch the application.
@@ -96,6 +98,7 @@ public class ConsolRecEstFrame extends JFrame {
 						dataTable = new JTable(new DefaultTableModel(temp,columnNames));
 						dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 						personScrollPane.setViewportView(dataTable);
+						btnEditar.setVisible(true);
 					}
 		
 				}
@@ -129,5 +132,19 @@ public class ConsolRecEstFrame extends JFrame {
 		personScrollPane = new JScrollPane();
 		personScrollPane.setBounds(334, 22, 347, 165);
 		contentPane.add(personScrollPane);
+		
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(592, 198, 89, 23);
+		btnEditar.setVisible(false);
+		btnEditar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updatePersonFrame = new UpdatePersonFrame();
+				updatePersonFrame.initialize(dniInput.getText().toString());
+				
+			}
+		});
+		contentPane.add(btnEditar);
 	}
 }
