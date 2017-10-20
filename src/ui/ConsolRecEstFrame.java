@@ -8,15 +8,17 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ConsolRecEstFrame extends JFrame {
 
 	private static final long serialVersionUID = 2L;
 	private JPanel contentPane;
 	private JTextField dniInput;
-	private JTable table;
 	private JComboBox<Object> programasComboBox;
 	private JComboBox<Object> periodComboBox;
+	private JScrollPane personScrollPane;
+	private JTable dataTable;
 
 	/**
 	 * Launch the application.
@@ -40,7 +42,7 @@ public class ConsolRecEstFrame extends JFrame {
 	public ConsolRecEstFrame() {
 		setTitle("Consolidado Reconocimeintos Estudiantiles");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 633, 381);
+		setBounds(100, 100, 707, 442);
 		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,6 +80,22 @@ public class ConsolRecEstFrame extends JFrame {
 						JOptionPane.showMessageDialog(null, "El documento de identificacion no puede estar vacio");
 					}else {
 						programasComboBox.setModel(new DefaultComboBoxModel<Object>(AuthenticationFrame.consult.getProgramForConsol(dniInput.getText().toString(),periodComboBox.getSelectedItem().toString())));
+						String personsTable = "personas_unal_uapa";
+						String[][] data = AuthenticationFrame.consult.getSomeFromTable("dni_persona", dniInput.getText().toString(), personsTable);
+						String[] columnNames = data[0];
+						
+						int r= data.length;
+				        int c= data[0].length;
+				        String [][] temp = new String [r-1][c];
+				        for(int k = 0; k < r-1; k++ ) {
+				        	for (int l = 0; l < c; l++) {
+				        		temp[k][l] = data[k+1][l];
+							}
+				        }
+				        	
+						dataTable = new JTable(new DefaultTableModel(temp,columnNames));
+						dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+						personScrollPane.setViewportView(dataTable);
 					}
 		
 				}
@@ -108,16 +126,8 @@ public class ConsolRecEstFrame extends JFrame {
 		lblPeriodo.setBounds(10, 21, 46, 14);
 		contentPane.add(lblPeriodo);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(307, 166, 300, 165);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 597, 165);
-		panel.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		personScrollPane = new JScrollPane();
+		personScrollPane.setBounds(334, 22, 347, 165);
+		contentPane.add(personScrollPane);
 	}
 }
