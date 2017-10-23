@@ -20,6 +20,8 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import entities.Person;
+
 //Notice, do not import com.mysql.jdbc.*
 //or you will have problems!
 
@@ -556,6 +558,34 @@ public class Querys {
 			}
 		}		
 		return null;
+	}
+	
+	public void updatePerson(Person person) {
+		isConnected();
+		Statement stmt = null;
+		try {
+			try {
+				
+				stmt = conn.createStatement();
+				stmt.executeUpdate("UPDATE "+ db+ "personas_unal_uapa SET dni_persona = '"+person.getDniPersona()
+				+"', tipo_dni_persona= '"+person.getTipoDniPersona()+"', nombres = '"+person.getNombres()+"', apellidos = '"+person.getApellidos()
+				+"', nombre_completo = '"+person.getNombreCompleto()+"', usuario_unal = '"+person.getUsuarioUnal()+"' WHERE dni_persona = '"+person.getIdentifier()+"'");
+				
+				
+			}catch(SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		} 
+		finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
 	}
 	
 	/**

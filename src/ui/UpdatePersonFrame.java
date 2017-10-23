@@ -11,6 +11,8 @@ import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import entities.Person;
+
 public class UpdatePersonFrame extends JFrame {
 
 	private static final long serialVersionUID = 3L;
@@ -97,16 +99,10 @@ public class UpdatePersonFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String aux = null;
-				String[] splitted = userTextField.getText().split("@"); 
-				int t = splitted.length;
-				if( t != 0) {
-					aux = splitted[0]; 
-					AuthenticationFrame.consult.addPerson(dniInput.getText(), typeDNIBox.getSelectedItem().toString(), nombresInput.getText(), apellidosInput.getText(), aux);
-				}else {
-					AuthenticationFrame.consult.addPerson(dniInput.getText(), typeDNIBox.getSelectedItem().toString(), nombresInput.getText(), apellidosInput.getText(), userTextField.getText());
-				}
-				
+				String useremail = userTextField.getText().toString()+"@unal.edu.co";
+				Person person = new Person(dniPerson,dniInput.getText().toString(),typeDNIBox.getSelectedItem().toString(),
+						nombresInput.getText().toString(), apellidosInput.getText().toString(), useremail);
+				AuthenticationFrame.consult.updatePerson(person);
 			}
 		});
 		
