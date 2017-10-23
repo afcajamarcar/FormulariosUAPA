@@ -20,7 +20,6 @@ public class ConsolRecEstFrame extends JFrame {
 	private JScrollPane personScrollPane;
 	private JTable dataTable;
 	private JButton btnEditar;
-	private UpdatePersonFrame updatePersonFrame;
 
 	/**
 	 * Launch the application.
@@ -140,9 +139,8 @@ public class ConsolRecEstFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updatePersonFrame = new UpdatePersonFrame();
-				updatePersonFrame.initialize(dniInput.getText().toString());
-				
+				String dniPerson = dniInput.getText().toString();
+				UpdatePersonFrame.initialize(dniPerson);
 			}
 		});
 		contentPane.add(btnEditar);

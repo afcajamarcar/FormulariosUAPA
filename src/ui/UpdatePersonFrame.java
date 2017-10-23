@@ -26,16 +26,16 @@ public class UpdatePersonFrame extends JFrame {
 	private JTextField userTextField;
 	private JLabel lbluserEmail;
 	private String dniPersona;
+	private String [][] personData = null;
 
 	/**
 	 * Launch the application.
 	 */
-	public void initialize(String dniPersona) {
+	public static void initialize(String dniPerson) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					setDniPersona(dniPersona);
-					UpdatePersonFrame frame = new UpdatePersonFrame();
+					UpdatePersonFrame frame = new UpdatePersonFrame(dniPerson);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,36 +47,31 @@ public class UpdatePersonFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UpdatePersonFrame() {
+	public UpdatePersonFrame(String dniPerson) {
 		
 		String personsTable = "personas_unal_uapa";
-		if(getDniPersona().length() != 0) {
-			String[][] data = AuthenticationFrame.consult.getSomeFromTable("dni_persona", getDniPersona(), personsTable);
-			   System.out.println(data.length);
-		        for (int i = 0; i < data.length; i++) {
-					for (int j = 0; j < data[0].length; j++) {
-						System.out.println(data[i][j]);
-					}
+		if(dniPerson.length() != 0) {
+			String[][] data = AuthenticationFrame.consult.getSomeFromTable("dni_persona", dniPerson, personsTable);
+			//removal of the first row containing the names of the columns
+			int r= data.length;
+	        int c= data[0].length;
+	        personData = new String [r-1][c];
+	        for(int k = 0; k < r-1; k++ ) {
+	        	for (int l = 0; l < c; l++) {
+	        		personData[k][l] = data[k+1][l];
 				}
-		        //System.out.println(temp.length);
-		        System.out.println(data[0][0].toString());
+	        }
+	        System.out.println(personData.length + " " + personData[0].length);
+	        for (int i = 0; i < personData.length; i++) {
+				for (int j = 0; j < personData[0].length; j++) {
+					System.out.println(personData[i][j].toString());
+				}
+			}
 		}
 		
-		//int r= data.length;
-        //int c= data[0].length;
-        //String [][] temp = new String [r-1][c];
-        //for(int k = 0; k < r-1; k++ ) {
-        //	for (int l = 0; l < c; l++) {
-        //		temp[k][l] = data[k+1][l];
-		//	}
-        //}
-     
-		
-        
-		
-		setTitle("A\u00F1adir Persona");
+		setTitle("Actualizar Persona");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 304, 283);
+		setBounds(100, 100, 304, 295);
 		setLocationRelativeTo(null); //centers the frame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -96,7 +91,7 @@ public class UpdatePersonFrame extends JFrame {
 		contentPane.add(lblApellidos);
 		
 		btnUpdate = new JButton("Actualizar");
-		btnUpdate.setBounds(96, 210, 89, 23);
+		btnUpdate.setBounds(95, 204, 97, 23);
 		btnUpdate.setEnabled(false);
 		btnUpdate.addActionListener(new ActionListener() {
 			
@@ -114,6 +109,7 @@ public class UpdatePersonFrame extends JFrame {
 				
 			}
 		});
+		
 		contentPane.add(btnUpdate);
 		
 		dniInput = new JTextField();
@@ -204,7 +200,6 @@ public class UpdatePersonFrame extends JFrame {
 		typeDNIBox = new JComboBox<String>();
 		typeDNIBox.setBounds(95, 14, 46, 20);
 		typeDNIBox.setModel(new DefaultComboBoxModel<String>(dniTypes));
-		//typeDNIBox.setSelectedItem( temp[0][0]);
 		contentPane.add(typeDNIBox);
 		
 		typeDNILabel = new JLabel("Tipo DNI:");
@@ -256,6 +251,8 @@ public class UpdatePersonFrame extends JFrame {
 		};
 		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
 		getRootPane().getActionMap().put("ESCAPE", escapeAction);
+		
+		fillFields();
 	}
 
 	public String getDniPersona() {
@@ -266,4 +263,22 @@ public class UpdatePersonFrame extends JFrame {
 		this.dniPersona = dniPersona;
 	}
 	
+	
+	/**
+	 * populates the jframe fields according to the data obtained in the CosnsolRecEstFrame jframe
+	 * follows the next order: six columns, one row (dni, type, names,last names, fullname, userunal)
+	 */
+	public void fillFields() {
+		if(personData != null) {
+			
+			String[] splitted = personData[0][5].toString().split("@");
+			dniInput.setText(personData[0][0].toString());
+			typeDNIBox.setSelectedItem(personData[0][1].toString());
+			nombresInput.setText(personData[0][2].toString());
+			apellidosInput.setText(personData[0][3].toString());
+			userTextField.setText(splitted[0]);
+			btnUpdate.setEnabled(true);
+			
+		}
+	}
 }
