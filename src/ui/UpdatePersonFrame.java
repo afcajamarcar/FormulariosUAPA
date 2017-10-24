@@ -51,9 +51,11 @@ public class UpdatePersonFrame extends JFrame {
 	 */
 	public UpdatePersonFrame(String dniPerson) {
 		
+		setDniPersona(dniPerson);
+		
 		String personsTable = "personas_unal_uapa";
-		if(dniPerson.length() != 0) {
-			String[][] data = AuthenticationFrame.consult.getSomeFromTable("dni_persona", dniPerson, personsTable);
+		if(getDniPersona().length() != 0) {
+			String[][] data = AuthenticationFrame.consult.getSomeFromTable("dni_persona", getDniPersona(), personsTable);
 			//removal of the first row containing the names of the columns
 			int r= data.length;
 	        int c= data[0].length;
@@ -100,9 +102,10 @@ public class UpdatePersonFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String useremail = userTextField.getText().toString()+"@unal.edu.co";
-				Person person = new Person(dniPerson,dniInput.getText().toString(),typeDNIBox.getSelectedItem().toString(),
+				Person person = new Person(getDniPersona(),dniInput.getText().toString(),typeDNIBox.getSelectedItem().toString(),
 						nombresInput.getText().toString(), apellidosInput.getText().toString(), useremail);
 				AuthenticationFrame.consult.updatePerson(person);
+				setDniPersona(dniInput.getText().toString());
 			}
 		});
 		
