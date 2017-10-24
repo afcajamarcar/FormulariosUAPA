@@ -18,7 +18,7 @@ public class ConsolRecEstFrame extends JFrame {
 	private JComboBox<Object> programasComboBox;
 	private JComboBox<Object> periodComboBox;
 	private JScrollPane personScrollPane;
-	private JTable dataTable;
+	private JTable recoDataTable;
 	private JButton btnEditar;
 
 	/**
@@ -94,9 +94,9 @@ public class ConsolRecEstFrame extends JFrame {
 							}
 				        }
 				        	
-						dataTable = new JTable(new DefaultTableModel(temp,columnNames));
-						dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-						personScrollPane.setViewportView(dataTable);
+						recoDataTable = new JTable(new DefaultTableModel(temp,columnNames));
+						recoDataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+						personScrollPane.setViewportView(recoDataTable);
 						btnEditar.setVisible(true);
 					}
 		
@@ -129,11 +129,11 @@ public class ConsolRecEstFrame extends JFrame {
 		contentPane.add(lblPeriodo);
 		
 		personScrollPane = new JScrollPane();
-		personScrollPane.setBounds(334, 22, 347, 165);
+		personScrollPane.setBounds(334, 22, 347, 78);
 		contentPane.add(personScrollPane);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(592, 198, 89, 23);
+		btnEditar.setBounds(592, 111, 89, 23);
 		btnEditar.setVisible(false);
 		btnEditar.addActionListener(new ActionListener() {
 			
@@ -144,5 +144,9 @@ public class ConsolRecEstFrame extends JFrame {
 			}
 		});
 		contentPane.add(btnEditar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(681, 184, -353, 60);
+		contentPane.add(scrollPane);
 	}
 }
